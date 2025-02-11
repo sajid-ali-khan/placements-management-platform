@@ -12,7 +12,7 @@ using PlacementsDriveManagementApp.Data;
 namespace PlacementsDriveManagementApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250203185440_InitialCreate")]
+    [Migration("20250211142318_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -75,10 +75,7 @@ namespace PlacementsDriveManagementApp.Migrations
             modelBuilder.Entity("PlacementsDriveManagementApp.Models.Company", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -170,10 +167,7 @@ namespace PlacementsDriveManagementApp.Migrations
             modelBuilder.Entity("PlacementsDriveManagementApp.Models.Student", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Dob")
                         .HasColumnType("datetime2");

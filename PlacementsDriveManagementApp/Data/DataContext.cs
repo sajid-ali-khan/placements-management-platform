@@ -31,6 +31,10 @@ namespace PlacementsDriveManagementApp.Data
                 .HasKey(s => s.Id);
 
             builder.Entity<Student>()
+                .Property(s => s.Id)
+                .ValueGeneratedNever(); //to prevent from auto generating the id
+
+            builder.Entity<Student>()
                 .HasMany(student => student.Applications)
                 .WithOne(application => application.Student)
                 .HasForeignKey(application => application.StudentId)
@@ -40,6 +44,10 @@ namespace PlacementsDriveManagementApp.Data
             //company rules
             builder.Entity<Company>()
                 .HasKey(c => c.Id);
+
+            builder.Entity<Company>()
+                .Property(c => c.Id)
+                .ValueGeneratedNever();
 
             builder.Entity<Company>()
                 .HasMany(company => company.Openings)
