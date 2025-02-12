@@ -9,13 +9,14 @@ namespace PlacementsDriveManagementApp.Models
         public int? OpeningId { get; set; }
         public int ResumeId { get; set; }
         public ApplicationStatus Status { get; set; }
+        public DateTime AppliedDate { get; set; }
         public DateTime? InterviewSlot { get; set; }
         public bool? StudentAppeared { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal? Package { get; set; }
         public DateTime? JoiningDate { get; set; }
-        public string PlaceOfWork { get; set; }
+        public string? PlaceOfWork { get; set; }
 
 
         public Student Student { get; set; }

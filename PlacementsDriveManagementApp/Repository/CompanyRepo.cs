@@ -23,7 +23,7 @@ namespace PlacementsDriveManagementApp.Repository
             return _context.Companies.OrderBy(c => c.Name).ToList();
         }
 
-        public Company GetCompany(string companyId)
+        public Company GetCompanyById(string companyId)
         {
             return _context.Companies.Where(c => c.Id == companyId).FirstOrDefault();
         }

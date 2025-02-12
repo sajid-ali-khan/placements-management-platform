@@ -60,6 +60,11 @@ namespace PlacementsDriveManagementApp.Data
             builder.Entity<Opening>()
                 .HasKey(op => op.Id);
 
+
+            builder.Entity<Opening>()
+                .Property(op => op.CreatedDate)
+                .HasDefaultValueSql("GETDATE()");
+
             builder.Entity<Opening>()
                 .HasMany(opening => opening.Applications)
                 .WithOne(application => application.Opening)
@@ -70,6 +75,11 @@ namespace PlacementsDriveManagementApp.Data
             //application rules
             builder.Entity<Application>()
                 .HasKey(ap => ap.Id);
+
+
+            builder.Entity<Application>()
+                .Property(app => app.AppliedDate)
+                .HasDefaultValueSql("GETDATE()");
 
             builder.Entity<Application>()
                 .Property(ap => ap.Status)

@@ -30,6 +30,11 @@ namespace PlacementsDriveManagementApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("AppliedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
                     b.Property<DateTime?>("InterviewSlot")
                         .HasColumnType("datetime2");
 
@@ -43,7 +48,6 @@ namespace PlacementsDriveManagementApp.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("PlaceOfWork")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ResumeId")
@@ -103,6 +107,11 @@ namespace PlacementsDriveManagementApp.Migrations
                     b.Property<string>("CompanyId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Description")
                         .IsRequired()

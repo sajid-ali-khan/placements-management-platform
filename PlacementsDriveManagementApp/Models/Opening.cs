@@ -10,6 +10,7 @@ namespace PlacementsDriveManagementApp.Models
         [Required]
         public string JobTitle { get; set; }
         public string Description { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         [Required]
         public DateTime LastDate { get; set; }

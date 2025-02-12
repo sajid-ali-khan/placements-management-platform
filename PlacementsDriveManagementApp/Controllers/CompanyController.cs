@@ -62,7 +62,7 @@ namespace PlacementsDriveManagementApp.Controllers
                 return NotFound(ModelState);
             }
 
-            var company = _mapper.Map<CompanyDto>(_companyRepo.GetCompany(companyId));
+            var company = _mapper.Map<CompanyDto>(_companyRepo.GetCompanyById(companyId));
 
             if (!ModelState.IsValid)
             {

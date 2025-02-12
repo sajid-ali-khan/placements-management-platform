@@ -77,6 +77,7 @@ namespace PlacementsDriveManagementApp.Migrations
                     CompanyId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     JobTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     LastDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -101,11 +102,12 @@ namespace PlacementsDriveManagementApp.Migrations
                     OpeningId = table.Column<int>(type: "int", nullable: true),
                     ResumeId = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
+                    AppliedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     InterviewSlot = table.Column<DateTime>(type: "datetime2", nullable: true),
                     StudentAppeared = table.Column<bool>(type: "bit", nullable: true),
                     Package = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     JoiningDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PlaceOfWork = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    PlaceOfWork = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
