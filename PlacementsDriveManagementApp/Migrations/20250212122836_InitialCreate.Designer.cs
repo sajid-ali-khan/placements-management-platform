@@ -12,7 +12,7 @@ using PlacementsDriveManagementApp.Data;
 namespace PlacementsDriveManagementApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250211142318_InitialCreate")]
+    [Migration("20250212122836_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -58,8 +58,9 @@ namespace PlacementsDriveManagementApp.Migrations
                     b.Property<bool?>("StudentAppeared")
                         .HasColumnType("bit");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -74,8 +75,8 @@ namespace PlacementsDriveManagementApp.Migrations
 
             modelBuilder.Entity("PlacementsDriveManagementApp.Models.Company", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -102,8 +103,9 @@ namespace PlacementsDriveManagementApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                    b.Property<string>("CompanyId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -166,8 +168,8 @@ namespace PlacementsDriveManagementApp.Migrations
 
             modelBuilder.Entity("PlacementsDriveManagementApp.Models.Student", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Dob")
                         .HasColumnType("datetime2");

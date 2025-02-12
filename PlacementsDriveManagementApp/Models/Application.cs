@@ -5,7 +5,7 @@ namespace PlacementsDriveManagementApp.Models
     public class Application
     {
         public int Id { get; set; }
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
         public int? OpeningId { get; set; }
         public int ResumeId { get; set; }
         public ApplicationStatus Status { get; set; }
