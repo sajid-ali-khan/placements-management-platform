@@ -6,6 +6,8 @@ namespace PlacementsDriveManagementApp.Interfaces
     {
         ICollection<Application> GetApplications();
         Application GetApplication(int applicationId);
+
+        Opening GetApplicationOpening(int applicationId);
         
     }
 }
