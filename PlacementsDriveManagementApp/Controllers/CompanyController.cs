@@ -71,5 +71,25 @@ namespace PlacementsDriveManagementApp.Controllers
 
             return Ok(company);
         }
+
+        [HttpGet("{companyId}/applications")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Application>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetApplicationsByCompany(string companyId)
+        {
+            if (!_companyRepo.CompanyExists(companyId))
+            {
+                return NotFound(ModelState);
+            }
+
+            var applications = _mapper.Map<List<ApplicationDto>>(_companyRepo.GetApplicationsByCompany(companyId));
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(applications);
+        }
     }
 }

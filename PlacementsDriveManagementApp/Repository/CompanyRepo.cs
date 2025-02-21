@@ -7,15 +7,31 @@ namespace PlacementsDriveManagementApp.Repository
     public class CompanyRepo : ICompanyRepo
     {
         private readonly DataContext _context;
+        private readonly IOpeningRepo _openingRepo;
 
-        public CompanyRepo(DataContext context)
+        public CompanyRepo(DataContext context, IOpeningRepo openingRepo)
         {
             _context = context;
+            _openingRepo = openingRepo;
         }
 
         public bool CompanyExists(string companyId)
         {
             return _context.Companies.Any(c => c.Id == companyId);
+        }
+
+        public ICollection<Application> GetApplicationsByCompany(string companyId)
+        {
+            var companyOpenings = GetCompanyOpenings(companyId);
+
+            var companyApplications = new List<Application>();
+
+            foreach (var opening in companyOpenings)
+            {
+                companyApplications.AddRange(_openingRepo.GetApplicationsByOpening(opening.Id));
+            }
+
+            return companyApplications;
         }
 
         public ICollection<Company> GetCompanies()

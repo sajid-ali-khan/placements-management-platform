@@ -7,6 +7,7 @@ namespace PlacementsDriveManagementApp.Interfaces
         ICollection<Company> GetCompanies();
         Company GetCompanyById(string companyId);
         ICollection<Opening> GetCompanyOpenings(string companyId);
+        ICollection<Application> GetApplicationsByCompany(string companyId);
         bool CompanyExists(string companyId);
     }
 }
