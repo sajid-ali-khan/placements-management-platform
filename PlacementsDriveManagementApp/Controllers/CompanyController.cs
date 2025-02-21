@@ -32,6 +32,7 @@ namespace PlacementsDriveManagementApp.Controllers
             return Ok(companies);
         }
 
+
         [HttpGet("{companyId}/openings")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Opening>))]
         [ProducesResponseType(400)]
@@ -52,6 +53,7 @@ namespace PlacementsDriveManagementApp.Controllers
             return Ok(openings);
         }
 
+
         [HttpGet("{companyId}")]
         [ProducesResponseType(200, Type = typeof(Company))]
         [ProducesResponseType(400)]
@@ -71,6 +73,7 @@ namespace PlacementsDriveManagementApp.Controllers
 
             return Ok(company);
         }
+
 
         [HttpGet("{companyId}/applications")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Application>))]

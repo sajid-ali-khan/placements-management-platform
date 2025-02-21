@@ -32,6 +32,8 @@ namespace PlacementsDriveManagementApp.Controllers
             }
             return Ok(students);
         }
+
+
         [HttpGet("{studentId}")]
         [ProducesResponseType(200, Type = typeof(Student))]
         [ProducesResponseType(400)]

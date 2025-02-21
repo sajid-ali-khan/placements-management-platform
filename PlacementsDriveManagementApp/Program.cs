@@ -16,6 +16,7 @@ builder.Services.AddScoped<ICompanyRepo, CompanyRepo>();
 builder.Services.AddScoped<IOpeningRepo, OpeningRepo>();
 builder.Services.AddScoped<IApplicationRepo, ApplicationRepo>();
 builder.Services.AddScoped<IStudentRepo, StudentRepo>();
+builder.Services.AddScoped<IResumeRepo, ResumeRepo>();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
