@@ -9,5 +9,7 @@ namespace PlacementsDriveManagementApp.Interfaces
         Company GetCompanyByOpening(int openingId);
         ICollection<Application> GetApplicationsByOpening(int openingId);
         bool OpeningExists(int openingId);
+        bool CreateOpening(Opening opening);
+        bool Save();
     }
 }

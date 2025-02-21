@@ -12,6 +12,13 @@ namespace PlacementsDriveManagementApp.Repository
         {
             _context = context;
         }
+
+        public bool CreateOpening(Opening opening)
+        {
+            _context.Openings.Add(opening);
+            return Save();
+        }
+
         public ICollection<Application> GetApplicationsByOpening(int openingId)
         {
             return _context.Openings.Where(op => op.Id == openingId).Select(op => op.Applications).FirstOrDefault();
@@ -35,6 +42,11 @@ namespace PlacementsDriveManagementApp.Repository
         public bool OpeningExists(int openingId)
         {
             return _context.Openings.Any(op => op.Id == openingId);
+        }
+
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
         }
     }
 }

@@ -155,7 +155,6 @@ namespace PlacementsDriveManagementApp.Controllers
                 StudentId = applicationCreateDto.StudentId,
                 OpeningId = applicationCreateDto.OpeningId,
                 ResumeId = applicationCreateDto.ResumeId,
-                AppliedDate = applicationCreateDto.AppliedDate,
                 Status = ApplicationStatus.Pending
             };
 
@@ -166,8 +165,7 @@ namespace PlacementsDriveManagementApp.Controllers
 
             if (!_applicationRepo.CreateApplication(application))
             {
-                ModelState.AddModelError("", "Something went wrong while saving the application.");
-                return StatusCode(500, ModelState);
+                return StatusCode(500,"Something went wrong while saving the application.");
             }
 
             return StatusCode(201, "Application saved successfully.");

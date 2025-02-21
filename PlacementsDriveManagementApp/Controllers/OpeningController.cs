@@ -93,5 +93,47 @@ namespace PlacementsDriveManagementApp.Controllers
             return Ok(applications);
         }
 
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(402)]
+        public IActionResult CreateOpening([FromBody] OpeningCreateDto openingCreateDto)
+        {
+            if (openingCreateDto == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var openingCheck = _openingRepo.GetOpenings()
+                .Where(op => op.CompanyId == openingCreateDto.CompanyId && op.JobTitle == openingCreateDto.JobTitle)
+                .FirstOrDefault();
+
+            if (openingCheck != null)
+            {
+                ModelState.AddModelError("", $"A opening with job title {openingCreateDto.JobTitle} already exists in your company.");
+                return BadRequest(ModelState);
+            }
+
+            var opening = new Opening()
+            {
+                CompanyId = openingCreateDto.CompanyId,
+                JobTitle = openingCreateDto.JobTitle,
+                Description = openingCreateDto.Description,
+                LastDate = openingCreateDto.LastDate,
+                IsActive = openingCreateDto.IsActive,
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_openingRepo.CreateOpening(opening))
+            {
+                return StatusCode(500, "Something went wrong while trying to create the opening.");
+            }
+
+            return StatusCode(201, "Opening successfully created.");
+        }
     }
 }
