@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using PlacementsDriveManagementApp.Dto;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Models;
 
@@ -48,6 +49,35 @@ namespace PlacementsDriveManagementApp.Controllers
             }
 
             return Ok(resume);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(402)]
+        public IActionResult CreateResume([FromBody] ResumeCreateDto resumeCreateDto)
+        {
+            if (resumeCreateDto == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var resume = new Resume()
+            {
+                Name = resumeCreateDto.Name,
+                FilePath = resumeCreateDto.FilePath,
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_resumeRepo.CreateResume(resume))
+            {
+                return StatusCode(500, "Something went wrong while trying to save the resume.");
+            }
+
+            return StatusCode(201, "Resume saved successfully");
         }
 
     }

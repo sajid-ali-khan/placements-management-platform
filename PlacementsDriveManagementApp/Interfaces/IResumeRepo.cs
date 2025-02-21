@@ -8,5 +8,8 @@ namespace PlacementsDriveManagementApp.Interfaces
         ICollection<Resume> GetResumes();
 
         bool ResumeExists(int resumeId);
+
+        bool CreateResume(Resume resume);
+        bool Save();
     }
 }
