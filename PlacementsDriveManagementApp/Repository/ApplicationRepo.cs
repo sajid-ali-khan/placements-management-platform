@@ -1,4 +1,4 @@
-﻿using PlacementsDriveManagementApp.Data;
+﻿  using PlacementsDriveManagementApp.Data;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Models;
 
@@ -15,6 +15,11 @@ namespace PlacementsDriveManagementApp.Repository
         public Application GetApplication(int applicationId)
         {
             return _context.Applications.Where(ap => ap.Id == applicationId).FirstOrDefault();
+        }
+
+        public Opening GetApplicationOpening(int applicationId)
+        {
+            return _context.Applications.Where(ap => ap.Id == applicationId).Select(ap => ap.Opening).FirstOrDefault();
         }
 
         public ICollection<Application> GetApplications()
