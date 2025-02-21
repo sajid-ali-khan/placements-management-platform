@@ -18,6 +18,12 @@ namespace PlacementsDriveManagementApp.Repository
             return _context.Applications.Any(ap => ap.Id == applicationId);
         }
 
+        public bool CreateApplication(Application application)
+        {
+            _context.Applications.Add(application);
+            return Save();
+        }
+
         public Application GetApplicationById(int applicationId)
         {
             return _context.Applications.Where(ap => ap.Id == applicationId).FirstOrDefault();
@@ -41,6 +47,12 @@ namespace PlacementsDriveManagementApp.Repository
         public Student GetStudentByApplication(int applicationId)
         {
             return _context.Applications.Where(ap => ap.Id == applicationId).Select(ap => ap.Student).FirstOrDefault();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0;
         }
     }
 }

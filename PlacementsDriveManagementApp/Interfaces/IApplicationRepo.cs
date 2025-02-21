@@ -13,6 +13,10 @@ namespace PlacementsDriveManagementApp.Interfaces
         Resume GetApplicationResume(int applicationId);
 
         bool ApplicationExists(int applicationId);
+
+        bool CreateApplication(Application application);
+
+        bool Save();
         
     }
 }

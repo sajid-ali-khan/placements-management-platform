@@ -26,5 +26,10 @@ namespace PlacementsDriveManagementApp.Repository
         {
             return _context.Students.ToList();
         }
+
+        public bool StudentExists(string studentId)
+        {
+            return _context.Students.Any(s => s.Id == studentId);
+        }
     }
 }

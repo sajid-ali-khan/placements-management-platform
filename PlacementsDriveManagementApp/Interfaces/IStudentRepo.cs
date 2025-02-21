@@ -7,5 +7,6 @@ namespace PlacementsDriveManagementApp.Interfaces
         ICollection<Student> GetStudents();
         Student GetStudentById(string studentId);
         ICollection<Application> GetApplicationsByStudent(string studentId);
+        bool StudentExists(string studentId);
     }
 }

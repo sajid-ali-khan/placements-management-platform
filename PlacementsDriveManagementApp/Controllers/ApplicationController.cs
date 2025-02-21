@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PlacementsDriveManagementApp.Dto;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Models;
@@ -11,11 +12,17 @@ namespace PlacementsDriveManagementApp.Controllers
     public class ApplicationController: Controller
     {
         private readonly IApplicationRepo _applicationRepo;
+        private readonly IStudentRepo _studentRepo;
+        private readonly IOpeningRepo _openingRepo;
+        private readonly IResumeRepo _resumeRepo;
         private readonly IMapper _mapper;
 
-        public ApplicationController(IApplicationRepo applicationRepo, IMapper mapper)
+        public ApplicationController(IStudentRepo studentRepo, IOpeningRepo openingRepo, IResumeRepo resumeRepo, IApplicationRepo applicationRepo, IMapper mapper)
         {
             _applicationRepo = applicationRepo;
+            _studentRepo = studentRepo;
+            _openingRepo = openingRepo;
+            _resumeRepo = resumeRepo;
             _mapper = mapper;
         }
 
@@ -117,5 +124,53 @@ namespace PlacementsDriveManagementApp.Controllers
             return Ok(resume);
         }
 
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(402)]
+        public IActionResult CreateApplication([FromBody] ApplicationCreateDto applicationCreateDto)
+        {
+            if (applicationCreateDto == null)
+            {
+                return BadRequest(ModelState);
+            }
+            if (!_studentRepo.StudentExists(applicationCreateDto.StudentId)){
+                ModelState.AddModelError("", $"A student, with studentId = {applicationCreateDto.StudentId}, does not exist.");
+                return BadRequest(ModelState);
+            }
+
+            if (!_openingRepo.OpeningExists(applicationCreateDto.OpeningId))
+            {
+                ModelState.AddModelError("", $"A opening, with openingId = {applicationCreateDto.OpeningId}, does not exists.");
+                return BadRequest(ModelState);
+            }
+            if (!_resumeRepo.ResumeExists(applicationCreateDto.ResumeId))
+            {
+                ModelState.AddModelError("", $"The given resume, with resumeId = {applicationCreateDto.ResumeId}, does not exists.");
+                return BadRequest(ModelState);
+            }
+
+            var application = new Application
+            {
+                StudentId = applicationCreateDto.StudentId,
+                OpeningId = applicationCreateDto.OpeningId,
+                ResumeId = applicationCreateDto.ResumeId,
+                AppliedDate = applicationCreateDto.AppliedDate,
+                Status = ApplicationStatus.Pending
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if (!_applicationRepo.CreateApplication(application))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving the application.");
+                return StatusCode(500, ModelState);
+            }
+
+            return StatusCode(201, "Application saved successfully.");
+        }
     }
 }

@@ -39,6 +39,10 @@ namespace PlacementsDriveManagementApp.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetStudentById(string studentId)
         {
+            if (!_studentRepo.StudentExists(studentId))
+            {
+                return NotFound(ModelState);
+            }
             var students = _mapper.Map<StudentDto>(_studentRepo.GetStudentById(studentId));
             if (!ModelState.IsValid)
             {
