@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PlacementsDriveManagementApp.Data;
+using PlacementsDriveManagementApp.Helper;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Repository;
 
@@ -17,6 +18,7 @@ builder.Services.AddScoped<IOpeningRepo, OpeningRepo>();
 builder.Services.AddScoped<IApplicationRepo, ApplicationRepo>();
 builder.Services.AddScoped<IStudentRepo, StudentRepo>();
 builder.Services.AddScoped<IResumeRepo, ResumeRepo>();
+builder.Services.AddScoped<PasswordService>();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {

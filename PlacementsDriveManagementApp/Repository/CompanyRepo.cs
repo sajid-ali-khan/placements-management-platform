@@ -15,12 +15,18 @@ namespace PlacementsDriveManagementApp.Repository
             _openingRepo = openingRepo;
         }
 
-        public bool CompanyExists(string companyId)
+        public bool CompanyExists(int companyId)
         {
             return _context.Companies.Any(c => c.Id == companyId);
         }
 
-        public ICollection<Application> GetApplicationsByCompany(string companyId)
+        public bool CreateCompany(Company company)
+        {
+            _context.Companies.Add(company);
+            return Save();
+        }
+
+        public ICollection<Application> GetApplicationsByCompany(int companyId)
         {
             var companyOpenings = GetCompanyOpenings(companyId);
 
@@ -39,15 +45,26 @@ namespace PlacementsDriveManagementApp.Repository
             return _context.Companies.OrderBy(c => c.Name).ToList();
         }
 
-        public Company GetCompanyById(string companyId)
+        public Company GetCompanyByEmail(string companyEmail)
+        {
+            return _context.Companies.Where(c => c.Email == companyEmail).FirstOrDefault();
+        }
+
+        public Company GetCompanyById(int companyId)
         {
             return _context.Companies.Where(c => c.Id == companyId).FirstOrDefault();
         }
 
-        public ICollection<Opening> GetCompanyOpenings(string companyId)
+        public ICollection<Opening> GetCompanyOpenings(int companyId)
         {
             //return _context.Openings.Where(op => op.CompanyId == companyId).ToList();
             return _context.Companies.Where(c => c.Id == companyId).Select(c => c.Openings).FirstOrDefault();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0;
         }
     }
 }

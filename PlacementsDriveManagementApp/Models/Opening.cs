@@ -5,7 +5,7 @@ namespace PlacementsDriveManagementApp.Models
     public class Opening
     {
         public int Id { get; set; }
-        public string CompanyId { get; set; }
+        public int CompanyId { get; set; }
 
         [Required]
         public string JobTitle { get; set; }

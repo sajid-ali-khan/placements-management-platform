@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PlacementsDriveManagementApp.Dto;
+using PlacementsDriveManagementApp.Helper;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Models;
 
@@ -11,11 +12,13 @@ namespace PlacementsDriveManagementApp.Controllers
     public class CompanyController: Controller
     {
         private readonly ICompanyRepo _companyRepo;
+        private readonly PasswordService _passwordService;
         private readonly IMapper _mapper;
 
-        public CompanyController(ICompanyRepo companyRepo, IMapper mapper)
+        public CompanyController(ICompanyRepo companyRepo, PasswordService passwordService, IMapper mapper)
         {
             _companyRepo = companyRepo;
+            _passwordService = passwordService;
             _mapper = mapper;
         }
 
@@ -36,7 +39,7 @@ namespace PlacementsDriveManagementApp.Controllers
         [HttpGet("{companyId}/openings")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Opening>))]
         [ProducesResponseType(400)]
-        public IActionResult GetOpeningsByCompany(string companyId)
+        public IActionResult GetOpeningsByCompany(int companyId)
         {
             if (!_companyRepo.CompanyExists(companyId))
             {
@@ -57,7 +60,7 @@ namespace PlacementsDriveManagementApp.Controllers
         [HttpGet("{companyId}")]
         [ProducesResponseType(200, Type = typeof(Company))]
         [ProducesResponseType(400)]
-        public IActionResult GetCompanyById(string companyId)
+        public IActionResult GetCompanyById(int companyId)
         {
             if (!_companyRepo.CompanyExists(companyId))
             {
@@ -78,7 +81,7 @@ namespace PlacementsDriveManagementApp.Controllers
         [HttpGet("{companyId}/applications")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Application>))]
         [ProducesResponseType(400)]
-        public IActionResult GetApplicationsByCompany(string companyId)
+        public IActionResult GetApplicationsByCompany(int companyId)
         {
             if (!_companyRepo.CompanyExists(companyId))
             {
@@ -93,6 +96,48 @@ namespace PlacementsDriveManagementApp.Controllers
             }
 
             return Ok(applications);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        public IActionResult CreateCompany([FromBody] CompanyCreateDto companyCreateDto)
+        {
+            if (companyCreateDto == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var compnayCheck = _companyRepo.GetCompanyByEmail(companyCreateDto.Email);
+
+            if (compnayCheck != null)
+            {
+                ModelState.AddModelError("", $"A company with Email {companyCreateDto.Email} already exists.");
+                return BadRequest(ModelState);
+            }
+
+            var hashedPassword = _passwordService.HashPassword(companyCreateDto.Password);
+
+            var company = new Company()
+            {
+                Name = companyCreateDto.Name,
+                Email = companyCreateDto.Email,
+                PasswordHash = hashedPassword,
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_companyRepo.CreateCompany(company))
+            {
+                ModelState.AddModelError("", "Something went wrong while creating the company");
+                return StatusCode(500, ModelState);
+            }
+
+            return StatusCode(201, "Company successfully created");
+
         }
     }
 }
