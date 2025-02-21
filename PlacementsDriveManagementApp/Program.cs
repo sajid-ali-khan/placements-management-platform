@@ -18,6 +18,7 @@ builder.Services.AddScoped<IOpeningRepo, OpeningRepo>();
 builder.Services.AddScoped<IApplicationRepo, ApplicationRepo>();
 builder.Services.AddScoped<IStudentRepo, StudentRepo>();
 builder.Services.AddScoped<IResumeRepo, ResumeRepo>();
+builder.Services.AddScoped<IPlacementOfficerRepo, PlacementOfficerRepo>();
 builder.Services.AddScoped<PasswordService>();
 
 builder.Services.AddDbContext<DataContext>(options =>

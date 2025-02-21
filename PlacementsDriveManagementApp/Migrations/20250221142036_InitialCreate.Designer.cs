@@ -12,7 +12,7 @@ using PlacementsDriveManagementApp.Data;
 namespace PlacementsDriveManagementApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250221124727_InitialCreate")]
+    [Migration("20250221142036_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -145,6 +145,10 @@ namespace PlacementsDriveManagementApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
