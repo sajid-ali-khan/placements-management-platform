@@ -12,7 +12,13 @@ namespace PlacementsDriveManagementApp.Repository
         {
             _context = context;
         }
-        public Application GetApplication(int applicationId)
+
+        public bool ApplicationExists(int applicationId)
+        {
+            return _context.Applications.Any(ap => ap.Id == applicationId);
+        }
+
+        public Application GetApplicationById(int applicationId)
         {
             return _context.Applications.Where(ap => ap.Id == applicationId).FirstOrDefault();
         }
@@ -22,9 +28,19 @@ namespace PlacementsDriveManagementApp.Repository
             return _context.Applications.Where(ap => ap.Id == applicationId).Select(ap => ap.Opening).FirstOrDefault();
         }
 
+        public Resume GetApplicationResume(int applicationId)
+        {
+            return _context.Applications.Where(ap => ap.Id == applicationId).Select(ap => ap.Resume).FirstOrDefault();
+        }
+
         public ICollection<Application> GetApplications()
         {
             return _context.Applications.OrderBy(ap => ap.AppliedDate).ToList();
+        }
+
+        public Student GetStudentByApplication(int applicationId)
+        {
+            return _context.Applications.Where(ap => ap.Id == applicationId).Select(ap => ap.Student).FirstOrDefault();
         }
     }
 }

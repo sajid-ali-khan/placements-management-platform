@@ -33,6 +33,89 @@ namespace PlacementsDriveManagementApp.Controllers
 
             return Ok(applications);
         }
- 
+
+
+        [HttpGet("{applicationId}")]
+        [ProducesResponseType(200, Type = typeof(Application))]
+        [ProducesResponseType(400)]
+        public IActionResult GetApplicationById(int applicationId)
+        {
+            if (!_applicationRepo.ApplicationExists(applicationId))
+            {
+                return NotFound(ModelState);
+            }
+
+            var application = _mapper.Map<ApplicationDto>(_applicationRepo.GetApplicationById(applicationId));
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(application);
+        }
+
+
+        [HttpGet("{applicationId}/opening")]
+        [ProducesResponseType(200, Type = typeof(Opening))]
+        [ProducesResponseType(400)]
+        public IActionResult GetApplicationOpening(int applicationId)
+        {
+            if (!_applicationRepo.ApplicationExists(applicationId))
+            {
+                return NotFound(ModelState);
+            }
+
+            var opening = _mapper.Map<OpeningDto>(_applicationRepo.GetApplicationOpening(applicationId));
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(opening);
+        }
+
+
+        [HttpGet("{applicationId}/student")]
+        [ProducesResponseType(200, Type = typeof(Student))]
+        [ProducesResponseType(400)]
+        public IActionResult GetStudentByApplicationId(int applicationId)
+        {
+            if (!_applicationRepo.ApplicationExists(applicationId))
+            {
+                return NotFound(ModelState);
+            }
+
+            var student = _mapper.Map<StudentDto>(_applicationRepo.GetStudentByApplication(applicationId));
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(student);
+        }
+
+        [HttpGet("{applicationId}/resume")]
+        [ProducesResponseType(200, Type = typeof(Resume))]
+        [ProducesResponseType(400)]
+        public IActionResult GetApplicationResume(int applicationId)
+        {
+            if (!_applicationRepo.ApplicationExists(applicationId))
+            {
+                return NotFound(ModelState);
+            }
+
+            var resume = _applicationRepo.GetApplicationResume(applicationId);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(resume);
+        }
+
     }
 }

@@ -30,7 +30,8 @@ namespace PlacementsDriveManagementApp.Repository
 
         public ICollection<Opening> GetCompanyOpenings(string companyId)
         {
-            return _context.Openings.Where(op => op.CompanyId == companyId).ToList();
+            //return _context.Openings.Where(op => op.CompanyId == companyId).ToList();
+            return _context.Companies.Where(c => c.Id == companyId).Select(c => c.Openings).FirstOrDefault();
         }
     }
 }
