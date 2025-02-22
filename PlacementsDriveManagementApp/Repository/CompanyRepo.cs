@@ -20,6 +20,11 @@ namespace PlacementsDriveManagementApp.Repository
             return _context.Companies.Any(c => c.Id == companyId);
         }
 
+        public bool CompanyExistsByEmail(string companyEmail)
+        {
+            return _context.Companies.Any(c => c.Email.ToUpper() == companyEmail.ToUpper());
+        }
+
         public bool CreateCompany(Company company)
         {
             _context.Companies.Add(company);
@@ -59,6 +64,13 @@ namespace PlacementsDriveManagementApp.Repository
         {
             //return _context.Openings.Where(op => op.CompanyId == companyId).ToList();
             return _context.Companies.Where(c => c.Id == companyId).Select(c => c.Openings).FirstOrDefault();
+        }
+
+        public string GetHashedPassword(string companyEmail)
+        {
+            return _context.Companies
+                .Where(c => c.Email.ToUpper() == companyEmail.ToUpper())
+                .Select(c => c.PasswordHash).FirstOrDefault();
         }
 
         public bool Save()

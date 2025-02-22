@@ -77,6 +77,24 @@ namespace PlacementsDriveManagementApp.Controllers
             return Ok(company);
         }
 
+        [HttpGet("email/{companyEmail}")]
+        [ProducesResponseType(200, Type = typeof(Company))]
+        [ProducesResponseType(400)]
+        public IActionResult GetCompanyByEmail(string companyEmail)
+        {
+            if (!_companyRepo.CompanyExistsByEmail(companyEmail))
+            {
+                return NotFound(ModelState);
+            }
+            var company = _mapper.Map<CompanyDto>(_companyRepo.GetCompanyByEmail(companyEmail));
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(company);
+        }
+
 
         [HttpGet("{companyId}/applications")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Application>))]
@@ -139,5 +157,6 @@ namespace PlacementsDriveManagementApp.Controllers
             return StatusCode(201, "Company successfully created");
 
         }
+
     }
 }

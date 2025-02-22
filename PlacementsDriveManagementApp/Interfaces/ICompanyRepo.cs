@@ -12,5 +12,7 @@ namespace PlacementsDriveManagementApp.Interfaces
         Company GetCompanyByEmail(string companyEmail);
         bool CreateCompany(Company company);
         bool Save();
+        bool CompanyExistsByEmail(string companyEmail);
+        string GetHashedPassword(string companyEmail);
     }
 }
