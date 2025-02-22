@@ -45,9 +45,6 @@ namespace PlacementsDriveManagementApp.Data
             builder.Entity<Company>()
                 .HasKey(c => c.Id);
 
-            builder.Entity<Company>()
-                .Property(c => c.Id)
-                .ValueGeneratedNever();
 
             builder.Entity<Company>()
                 .HasMany(company => company.Openings)

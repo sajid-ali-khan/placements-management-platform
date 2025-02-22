@@ -39,14 +39,24 @@ namespace PlacementsDriveManagementApp.Repository
             return _context.PlacementOfficers.Any(po => po.Id == placementOfficerId);
         }
 
-        public PlacementOfficer GetPlacementOfficerByUserName(string userName)
+        public PlacementOfficer GetPlacementOfficerByEmail(string email)
         {
-            return _context.PlacementOfficers.Where(po => po.UserName == userName).FirstOrDefault();
+            return _context.PlacementOfficers
+                .Where(po => po.Email.ToUpper() == email.ToUpper())
+                .FirstOrDefault();
         }
 
-        public bool PlacementOfficerExistsByUserName(string userName)
+        public bool PlacementOfficerExistsByEmail(string email)
         {
-            return _context.PlacementOfficers.Any(po => po.UserName.ToLower() == userName.ToLower());
+            return _context.PlacementOfficers.Any(po => po.Email.ToLower() == email.ToLower());
+        }
+
+        public string GetPlacementOfficerPasswordHash(string userName)
+        {
+            return _context.PlacementOfficers
+                .Where(po => po.UserName.ToLower() == userName.ToLower())
+                .Select(po => po.PasswordHash)
+                .FirstOrDefault();
         }
     }
 }

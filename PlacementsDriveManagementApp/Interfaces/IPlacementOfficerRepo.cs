@@ -6,10 +6,12 @@ namespace PlacementsDriveManagementApp.Interfaces
     {
         ICollection<PlacementOfficer> GetPlacementOfficers();
         PlacementOfficer GetPlacementOfficerById(int placementOfficerId);
-        PlacementOfficer GetPlacementOfficerByUserName(string userName);
+        PlacementOfficer GetPlacementOfficerByEmail(string email);
         bool CreatePlacementOfficer(PlacementOfficer placementOfficer);
         bool PlacementOfficerExists(int placementOfficerId);
-        bool PlacementOfficerExistsByUserName(string userName);
+        bool PlacementOfficerExistsByEmail(string email);
         bool Save();
+
+        string GetPlacementOfficerPasswordHash(string userName);
     }
 }

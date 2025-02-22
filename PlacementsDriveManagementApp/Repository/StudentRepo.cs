@@ -21,7 +21,20 @@ namespace PlacementsDriveManagementApp.Repository
 
         public ICollection<Application> GetApplicationsByStudent(string studentId)
         {
-            return _context.Applications.Where(ap => ap.StudentId == studentId).ToList();
+            return _context.Students.Where(s => s.Id.ToUpper() == studentId.ToUpper()).Select(s => s.Applications).FirstOrDefault();
+        }
+
+        public string GetPasswordHash(string email)
+        {
+            return _context.Students
+                .Where(s => s.Email.ToLower() == email.ToLower())
+                .Select(s => s.PassWord)
+                .FirstOrDefault();
+        }
+
+        public Student GetStudentByEmail(string email)
+        {
+            return _context.Students.Where(s => s.Email.ToUpper() == email.ToUpper()).FirstOrDefault();
         }
 
         public Student GetStudentById(string studentId)
@@ -44,6 +57,9 @@ namespace PlacementsDriveManagementApp.Repository
             return _context.Students.Any(s => s.Id == studentId);
         }
 
-
+        public bool StudentExistsByEmail(string email)
+        {
+            return _context.Students.Any(s => s.Email.ToLower() == email.ToLower());
+        }
     }
 }

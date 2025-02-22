@@ -55,6 +55,23 @@ namespace PlacementsDriveManagementApp.Controllers
             return Ok(students);
         }
 
+        [HttpGet("email/{studentEmail}")]
+        [ProducesResponseType(200, Type = typeof(Student))]
+        [ProducesResponseType(400)]
+        public IActionResult GetStudentsByEmail(string studentEmail)
+        {
+            if (!_studentRepo.StudentExistsByEmail(studentEmail))
+            {
+                return NotFound(ModelState);
+            }
+            var students = _mapper.Map<StudentDto>(_studentRepo.GetStudentByEmail(studentEmail));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(students);
+        }
+
 
         [HttpGet("{studentId}/applications")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Application>))]
@@ -81,14 +98,15 @@ namespace PlacementsDriveManagementApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var studentCheck = _studentRepo.GetStudents()
-                .Where(s => s.Id.ToUpper() == studentDto.Id.ToUpper())
-                .FirstOrDefault();
-
-            if (studentCheck != null)
+            if (_studentRepo.StudentExists(studentDto.Id))
             {
                 ModelState.AddModelError("", $"A student with Id = {studentDto.Id} already exists.");
                 return BadRequest(ModelState);
+            }
+
+            if (_studentRepo.StudentExistsByEmail(studentDto.Email))
+            {
+                ModelState.AddModelError("", $"A student with Email = {studentDto.Email} already exists.");
             }
 
             var hashedPassword = _passwordService.HashPassword(studentDto.Password);

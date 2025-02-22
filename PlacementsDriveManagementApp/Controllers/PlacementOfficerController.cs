@@ -54,17 +54,17 @@ namespace PlacementsDriveManagementApp.Controllers
             return Ok(placementOfficer);
         }
 
-        [HttpGet("username/{placementOfficerUserName}")]
+        [HttpGet("email/{placementOfficerEmail}")]
         [ProducesResponseType(200, Type = typeof(PlacementOfficer))]
         [ProducesResponseType(400)]
-        public IActionResult GetPlacementOfficerByUserName(string placementOfficerUserName)
+        public IActionResult GetPlacementOfficerByEmail(string placementOfficerEmail)
         {
-            if (!_placementOfficerRepo.PlacementOfficerExistsByUserName(placementOfficerUserName))
+            if (!_placementOfficerRepo.PlacementOfficerExistsByEmail(placementOfficerEmail))
             {
                 return NotFound(ModelState);
             }
 
-            var placementOfficer = _placementOfficerRepo.GetPlacementOfficerByUserName(placementOfficerUserName);
+            var placementOfficer = _placementOfficerRepo.GetPlacementOfficerByEmail(placementOfficerEmail);
 
             if (!ModelState.IsValid)
             {
@@ -84,13 +84,9 @@ namespace PlacementsDriveManagementApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var pos = _placementOfficerRepo.GetPlacementOfficers()
-                .Where(po => po.UserName.ToUpper() == placementOfficerCreateDto.UserName.ToUpper())
-                .FirstOrDefault();
-
-            if (pos != null)
+            if (_placementOfficerRepo.PlacementOfficerExistsByEmail(placementOfficerCreateDto.Email))
             {
-                ModelState.AddModelError("", $"User with username '{placementOfficerCreateDto.UserName}' already exists.");
+                ModelState.AddModelError("", $"A placement officer with Email {placementOfficerCreateDto.Email} already exists.");
                 return BadRequest(ModelState);
             }
 
@@ -99,6 +95,7 @@ namespace PlacementsDriveManagementApp.Controllers
             var placementOfficer = new PlacementOfficer()
             {
                 UserName = placementOfficerCreateDto.UserName,
+                Email = placementOfficerCreateDto.Email,
                 PasswordHash = hashedPassword,
             };
 
