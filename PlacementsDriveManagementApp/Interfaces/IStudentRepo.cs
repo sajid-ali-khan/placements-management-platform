@@ -11,6 +11,8 @@ namespace PlacementsDriveManagementApp.Interfaces
         bool StudentExists(string studentId);
         bool StudentExistsByEmail(string Email);
         bool CreateStudent(Student student);
+
+        bool UpdateStudent(Student student);
         bool Save();
         string GetHashedPassword(string Email);
     }

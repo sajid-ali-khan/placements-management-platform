@@ -133,5 +133,47 @@ namespace PlacementsDriveManagementApp.Controllers
 
             return StatusCode(201, "Student saved successfully");
         }
+
+
+        [HttpPut("{studentId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public IActionResult UpdateStudent(string studentId, [FromBody] StudentDto studentDto)
+        {
+            if (studentDto == null)
+                return BadRequest(ModelState);
+
+            if (studentId.ToUpper() != studentDto.Id.ToUpper())
+                return BadRequest(ModelState);
+
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var existingStudent = _studentRepo.GetStudentById(studentId);
+
+            if (existingStudent == null)
+                return NotFound();
+
+            var check = _studentRepo.GetStudents()
+                .Any(s => s.Email == studentDto.Email && s.Id != studentDto.Id);
+
+            if (check)
+            {
+                ModelState.AddModelError("", $"The email, {studentDto.Email} is assigned to someone else.");
+                return BadRequest(ModelState);
+            }
+
+            _mapper.Map(studentDto, existingStudent);
+
+            if (!_studentRepo.UpdateStudent(existingStudent))
+            {
+                ModelState.AddModelError("", "Something went wrong while trying to update the student");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
     }
 }

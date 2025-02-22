@@ -12,6 +12,7 @@ namespace PlacementsDriveManagementApp.Helper
             CreateMap<Opening, OpeningDto>();
             CreateMap<Application, ApplicationDto>();
             CreateMap<Student, StudentDto>();
+            CreateMap<StudentDto, Student>();
         }
     }
 }

@@ -61,5 +61,11 @@ namespace PlacementsDriveManagementApp.Repository
         {
             return _context.Students.Any(s => s.Email.ToLower() == email.ToLower());
         }
+
+        public bool UpdateStudent(Student student)
+        {
+            _context.Update(student);
+            return Save();
+        }
     }
 }
