@@ -54,5 +54,11 @@ namespace PlacementsDriveManagementApp.Repository
             var saved = _context.SaveChanges();
             return saved > 0;
         }
+
+        public bool UpdateApplication(Application application)
+        {
+            _context.Update(application);
+            return Save();
+        }
     }
 }

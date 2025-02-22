@@ -15,6 +15,7 @@ namespace PlacementsDriveManagementApp.Interfaces
         bool ApplicationExists(int applicationId);
 
         bool CreateApplication(Application application);
+        bool UpdateApplication(Application application);
 
         bool Save();
         

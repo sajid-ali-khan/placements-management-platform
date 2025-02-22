@@ -170,5 +170,33 @@ namespace PlacementsDriveManagementApp.Controllers
 
             return StatusCode(201, "Application saved successfully.");
         }
+
+        [HttpPut("{applicationId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public IActionResult UpdateApplication(int applicationId, [FromBody] ApplicationUpdateDto application)
+        {
+            if (application == null)
+                return BadRequest(ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var existingApplication = _applicationRepo.GetApplicationById(applicationId);
+
+            if (existingApplication == null)
+                return NotFound();
+
+            _mapper.Map(application, existingApplication);
+
+            if (!_applicationRepo.UpdateApplication(existingApplication))
+            {
+                ModelState.AddModelError("", "Something went wrong, try again.");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
     }
 }
