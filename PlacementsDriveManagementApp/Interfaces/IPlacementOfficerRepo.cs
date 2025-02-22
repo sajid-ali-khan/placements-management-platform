@@ -9,6 +9,7 @@ namespace PlacementsDriveManagementApp.Interfaces
         PlacementOfficer GetPlacementOfficerByUserName(string userName);
         bool CreatePlacementOfficer(PlacementOfficer placementOfficer);
         bool PlacementOfficerExists(int placementOfficerId);
+        bool PlacementOfficerExistsByUserName(string userName);
         bool Save();
     }
 }

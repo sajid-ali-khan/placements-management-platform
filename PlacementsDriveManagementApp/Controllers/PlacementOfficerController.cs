@@ -37,7 +37,7 @@ namespace PlacementsDriveManagementApp.Controllers
         [HttpGet("{placementOfficerId}")]
         [ProducesResponseType(200, Type = typeof(PlacementOfficer))]
         [ProducesResponseType(400)]
-        public IActionResult GetCompanyById(int placementOfficerId)
+        public IActionResult GetPlacementOfficerById(int placementOfficerId)
         {
             if (!_placementOfficerRepo.PlacementOfficerExists(placementOfficerId))
             {
@@ -45,6 +45,26 @@ namespace PlacementsDriveManagementApp.Controllers
             }
 
             var placementOfficer = _placementOfficerRepo.GetPlacementOfficerById(placementOfficerId);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(placementOfficer);
+        }
+
+        [HttpGet("username/{placementOfficerUserName}")]
+        [ProducesResponseType(200, Type = typeof(PlacementOfficer))]
+        [ProducesResponseType(400)]
+        public IActionResult GetPlacementOfficerByUserName(string placementOfficerUserName)
+        {
+            if (!_placementOfficerRepo.PlacementOfficerExistsByUserName(placementOfficerUserName))
+            {
+                return NotFound(ModelState);
+            }
+
+            var placementOfficer = _placementOfficerRepo.GetPlacementOfficerByUserName(placementOfficerUserName);
 
             if (!ModelState.IsValid)
             {

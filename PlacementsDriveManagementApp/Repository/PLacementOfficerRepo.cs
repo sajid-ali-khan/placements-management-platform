@@ -43,5 +43,10 @@ namespace PlacementsDriveManagementApp.Repository
         {
             return _context.PlacementOfficers.Where(po => po.UserName == userName).FirstOrDefault();
         }
+
+        public bool PlacementOfficerExistsByUserName(string userName)
+        {
+            return _context.PlacementOfficers.Any(po => po.UserName.ToLower() == userName.ToLower());
+        }
     }
 }
