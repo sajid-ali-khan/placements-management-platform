@@ -10,7 +10,7 @@ public class PasswordService
 
     public bool VerifyPassword(string enteredPassword, string storedHashedPassword)
     {
-        return BCrypt.Verify(enteredPassword, storedHashedPassword);
+        return BCrypt.EnhancedVerify(enteredPassword, storedHashedPassword);
     }
 }
 

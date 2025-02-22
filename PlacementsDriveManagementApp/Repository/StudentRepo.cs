@@ -24,7 +24,7 @@ namespace PlacementsDriveManagementApp.Repository
             return _context.Students.Where(s => s.Id.ToUpper() == studentId.ToUpper()).Select(s => s.Applications).FirstOrDefault();
         }
 
-        public string GetPasswordHash(string email)
+        public string GetHashedPassword(string email)
         {
             return _context.Students
                 .Where(s => s.Email.ToLower() == email.ToLower())

@@ -51,12 +51,16 @@ namespace PlacementsDriveManagementApp.Repository
             return _context.PlacementOfficers.Any(po => po.Email.ToLower() == email.ToLower());
         }
 
-        public string GetPlacementOfficerPasswordHash(string userName)
+        public string GetHashedPassword(string email)
         {
-            return _context.PlacementOfficers
-                .Where(po => po.UserName.ToLower() == userName.ToLower())
+            var hashedPassword = _context.PlacementOfficers
+                .Where(po => po.Email.ToLower() == email.ToLower())
                 .Select(po => po.PasswordHash)
                 .FirstOrDefault();
+
+            Console.WriteLine($"Retrieved Hashed Password: {hashedPassword}");
+            return hashedPassword;
         }
+
     }
 }
