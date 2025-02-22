@@ -10,6 +10,7 @@ namespace PlacementsDriveManagementApp.Interfaces
         bool ResumeExists(int resumeId);
 
         bool CreateResume(Resume resume);
+        bool UpdateResume(Resume resume);
         bool Save();
     }
 }

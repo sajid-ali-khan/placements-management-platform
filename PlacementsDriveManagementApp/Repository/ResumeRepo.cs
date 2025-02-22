@@ -38,5 +38,11 @@ namespace PlacementsDriveManagementApp.Repository
         {
             return _context.SaveChanges() > 0;
         }
+
+        public bool UpdateResume(Resume resume)
+        {
+            _context.Update(resume);
+            return Save();
+        }
     }
 }

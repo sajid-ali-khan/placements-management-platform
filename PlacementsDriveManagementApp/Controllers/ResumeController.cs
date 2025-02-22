@@ -80,5 +80,33 @@ namespace PlacementsDriveManagementApp.Controllers
             return StatusCode(201, "Resume saved successfully");
         }
 
+        [HttpPut("{resumeId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public IActionResult UpdateResume(int resumeId, [FromBody] ResumeUpdateDto updatedResume)
+        {
+            if (updatedResume == null)
+                return BadRequest(new {message = "Invalid resume data!"});
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var existingResume = _resumeRepo.GetResumeById(resumeId);
+
+            if (existingResume == null)
+                return NotFound(new {message = $"The resume with resumeId = {resumeId} was not found."});
+
+            _mapper.Map(updatedResume, existingResume);
+
+
+            if (!_resumeRepo.UpdateResume(existingResume))
+            {
+                return StatusCode(500, new { message = "Something went wrong while updating the resume, please try again." });
+            }
+
+            return NoContent();
+        }
+
     }
 }
