@@ -48,5 +48,11 @@ namespace PlacementsDriveManagementApp.Repository
         {
             return _context.SaveChanges() > 0;
         }
+
+        public bool UpdateOpening(Opening opening)
+        {
+            _context.Update(opening);
+            return Save();
+        }
     }
 }

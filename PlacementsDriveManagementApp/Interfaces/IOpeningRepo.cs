@@ -10,6 +10,7 @@ namespace PlacementsDriveManagementApp.Interfaces
         ICollection<Application> GetApplicationsByOpening(int openingId);
         bool OpeningExists(int openingId);
         bool CreateOpening(Opening opening);
+        bool UpdateOpening(Opening opening);
         bool Save();
     }
 }

@@ -135,5 +135,55 @@ namespace PlacementsDriveManagementApp.Controllers
 
             return StatusCode(201, "Opening successfully created.");
         }
+
+
+        [HttpPut("{openingId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public IActionResult UpdateOpening(int openingId, [FromBody] OpeningUpdateDto updatedOpening)
+        {
+            if (updatedOpening == null)
+                return BadRequest(new { message = "Invalid opening data." });
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var existingOpening = _openingRepo.GetOpeningById(openingId);
+
+            if (existingOpening == null)
+                return NotFound(new { message = "Opening not found" });
+
+            _mapper.Map(updatedOpening, existingOpening);
+
+            if (!_openingRepo.UpdateOpening(existingOpening))
+            {
+                return StatusCode(500, new { message = "Something went wrong." });
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("{openingId}/deactivate")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public IActionResult DeactivateOpening(int openingId)
+        {
+            var existingOpening = _openingRepo.GetOpeningById(openingId);
+
+            if (existingOpening == null)
+                return NotFound(new { message = "Opening not found" });
+
+            existingOpening.IsActive = false;
+
+            if (!_openingRepo.UpdateOpening(existingOpening))
+            {
+                return StatusCode(500, new { message = "Something went wrong." });
+            }
+
+            return NoContent();
+        }
+
     }
 }
