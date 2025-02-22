@@ -12,6 +12,13 @@ namespace PlacementsDriveManagementApp.Repository
         {
             _context = context;
         }
+
+        public bool CreateStudent(Student student)
+        {
+            _context.Students.Add(student);
+            return Save();
+        }
+
         public ICollection<Application> GetApplicationsByStudent(string studentId)
         {
             return _context.Applications.Where(ap => ap.StudentId == studentId).ToList();
@@ -27,9 +34,16 @@ namespace PlacementsDriveManagementApp.Repository
             return _context.Students.ToList();
         }
 
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
+        }
+
         public bool StudentExists(string studentId)
         {
             return _context.Students.Any(s => s.Id == studentId);
         }
+
+
     }
 }

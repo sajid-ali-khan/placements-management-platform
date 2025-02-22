@@ -2,8 +2,10 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PlacementsDriveManagementApp.Dto;
+using PlacementsDriveManagementApp.Helper;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Models;
+using PlacementsDriveManagementApp.Repository;
 
 namespace PlacementsDriveManagementApp.Controllers
 {
@@ -12,11 +14,13 @@ namespace PlacementsDriveManagementApp.Controllers
     public class StudentController : Controller
     {
         private readonly IStudentRepo _studentRepo;
+        private readonly PasswordService _passwordService;
         private readonly IMapper _mapper;
 
-        public StudentController(IStudentRepo studentRepo,IMapper mapper)
+        public StudentController(IStudentRepo studentRepo, PasswordService passwordService,IMapper mapper)
         {
             _studentRepo = studentRepo;
+            _passwordService = passwordService;
             _mapper = mapper;
         }
 
@@ -67,5 +71,49 @@ namespace PlacementsDriveManagementApp.Controllers
 
 
 
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(402)]
+        public IActionResult CreateStudent([FromBody] StudentCreateDto studentDto)
+        {
+            if (studentDto == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studentCheck = _studentRepo.GetStudents()
+                .Where(s => s.Id.ToUpper() == studentDto.Id.ToUpper())
+                .FirstOrDefault();
+
+            if (studentCheck != null)
+            {
+                ModelState.AddModelError("", $"A student with Id = {studentDto.Id} already exists.");
+                return BadRequest(ModelState);
+            }
+
+            var hashedPassword = _passwordService.HashPassword(studentDto.Password);
+
+            var student = new Student()
+            {
+                Id = studentDto.Id,
+                Name = studentDto.Name,
+                Phone = studentDto.Phone,
+                Email = studentDto.Email,
+                Dob = studentDto.Dob,
+                PassWord = hashedPassword,
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_studentRepo.CreateStudent(student))
+            {
+                return StatusCode(500, "Something went wrong while trying to add the student.");
+            }
+
+            return StatusCode(201, "Student saved successfully");
+        }
     }
 }
