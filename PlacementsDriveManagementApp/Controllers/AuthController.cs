@@ -1,77 +1,63 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PlacementsDriveManagementApp.Dto;
 using PlacementsDriveManagementApp.Helper;
 using PlacementsDriveManagementApp.Interfaces;
-using PlacementsDriveManagementApp.Repository;
+using PlacementsDriveManagementApp.Services;
 
 namespace PlacementsDriveManagementApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController: Controller
+    public class AuthController : Controller
     {
-        private readonly PasswordService _passwordService;
-        private readonly IStudentRepo _studentRepo;
-        private readonly ICompanyRepo _companyRepo;
-        private readonly IPlacementOfficerRepo _placementOfficerRepo;
+        private readonly AuthService _authService;
+        private readonly JwtService _jwtService;
 
-        public AuthController(PasswordService passwordService, IStudentRepo studentRepo, ICompanyRepo companyRepo, IPlacementOfficerRepo placementOfficerRepo)
+        public AuthController(AuthService authService, JwtService jwtService)
         {
-            _passwordService = passwordService;
-            _studentRepo = studentRepo;
-            _companyRepo = companyRepo;
-            _placementOfficerRepo = placementOfficerRepo;
+            _authService = authService;
+            _jwtService = jwtService;
         }
 
         [HttpPost("login")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult Authenticate([FromBody] UserDto user)
+        public IActionResult Authenticate([FromBody] UserDto userDto)
         {
-            if (user == null)
+            var user = _authService.AuthenticateUser(userDto);
+
+            if (user is null)
             {
-                return BadRequest(ModelState);
+                return Unauthorized("Login unsuccessful. Invalid email or password");
             }
 
-            string hashedPassword = "";
+            var token = _jwtService.GenerateToken(user.Email, user.Role.ToString());
 
-            switch (user.Role)
+            Response.Cookies.Append("AuthToken", token, new CookieOptions
             {
-                case UserRole.STUDENT:
-                    if (!_studentRepo.StudentExistsByEmail(user.Email))
-                    {
-                        ModelState.AddModelError("", "User doesn't exists.");
-                        return BadRequest(ModelState);
-                    }
-                    hashedPassword = _studentRepo.GetHashedPassword(user.Email);
-                    break;
-                case UserRole.ADMIN:
-                    if (!_placementOfficerRepo.PlacementOfficerExistsByEmail(user.Email))
-                    {
-                        ModelState.AddModelError("", "User doesn't exists.");
-                        return BadRequest(ModelState);
-                    }
-                    hashedPassword = _placementOfficerRepo.GetHashedPassword(user.Email);
-                    break;
-                case UserRole.HR:
-                    if (!_companyRepo.CompanyExistsByEmail(user.Email))
-                    {
-                        ModelState.AddModelError("", "User doesn't exists.");
-                        return BadRequest(ModelState);
-                    }
-                    hashedPassword = _companyRepo.GetHashedPassword(user.Email);
-                    break;
-                default:
-                    ModelState.AddModelError("", "Invalid user role.");
-                    return BadRequest(ModelState);
-            }
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddMinutes(60)
+            });
 
-            if (_passwordService.VerifyPassword(user.Password, hashedPassword))
-            {
-                return Ok("Login Successfull");
-            }
-
-            return Unauthorized(new { message = "Invalid Credentials" });
+            return Ok(new { message = "Login successful" });
         }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("AuthToken");
+            return Ok(new { message = "Logout successful" });
+        }
+
+        [Authorize]
+        [HttpGet("protected")]
+        public IActionResult ProtectedRoute()
+        {
+            return Ok(new { message = "This is a protected API route!" });
+        }
+
     }
 }
