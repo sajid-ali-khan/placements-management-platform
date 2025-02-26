@@ -139,12 +139,9 @@ namespace PlacementsDriveManagementApp.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult UpdateStudent(string studentId, [FromBody] StudentDto studentDto)
+        public IActionResult UpdateStudent(string studentId, [FromBody] StudentUpdateDto updatedStudent)
         {
-            if (studentDto == null)
-                return BadRequest(ModelState);
-
-            if (studentId.ToUpper() != studentDto.Id.ToUpper())
+            if (updatedStudent == null)
                 return BadRequest(ModelState);
 
 
@@ -157,15 +154,15 @@ namespace PlacementsDriveManagementApp.Controllers
                 return NotFound();
 
             var check = _studentRepo.GetStudents()
-                .Any(s => s.Email == studentDto.Email && s.Id != studentDto.Id);
+                .Any(s => s.Email.ToUpper() == updatedStudent.Email.ToUpper() && s.Id.ToUpper() != studentId.ToUpper());
 
             if (check)
             {
-                ModelState.AddModelError("", $"The email, {studentDto.Email} is assigned to someone else.");
+                ModelState.AddModelError("", $"The email, {updatedStudent.Email} is assigned to someone else.");
                 return BadRequest(ModelState);
             }
 
-            _mapper.Map(studentDto, existingStudent);
+            _mapper.Map(updatedStudent, existingStudent);
 
             if (!_studentRepo.UpdateStudent(existingStudent))
             {
