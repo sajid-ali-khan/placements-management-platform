@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Placement Management</title>
+    <link rel="stylesheet" href="/stylesheets/output.css">
+</head>
+
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+    <!-- Toolbar -->
+    <nav class="w-full bg-blue-600 p-4 shadow-md">
+        <h1 class="text-white font-semibold text-2xl">Placements Drive Management</h1>
+    </nav>
+
+    <!-- Login Form -->
+    <div class="flex justify-center items-center flex-1">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 class="text-2xl font-semibold text-gray-800 text-center">Login</h2>
+
+            <div class="mt-4">
+                <label class="block text-gray-600">Email</label>
+                <input type="email" id="email" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300">
+            </div>
+
+            <div class="mt-4">
+                <label class="block text-gray-600">Password</label>
+                <input type="password" id="password" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300">
+            </div>
+
+            <div class="mt-4">
+                <label class="block text-gray-600">Role</label>
+                <select id="role" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300">
+                    <option value="1">Student</option>
+                    <option value="2">Admin</option>
+                    <option value="3">HR</option>
+                </select>
+            </div>
+
+            <div class="mt-6">
+                <button id="login-btn" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600">
+                    Login
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/javascripts/jquery-3.7.1.min.js"></script>
+    <script src="/javascripts/login.js"></script>
+</body>
+
+</html>
