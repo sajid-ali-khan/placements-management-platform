@@ -21,13 +21,19 @@ namespace PlacementsDriveManagementApp.Helper
             var jwtSettings = _config.GetSection("JwtSettings");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Secret"]));
 
-            var claims = new[]
+            //var claims = new[]
+            //{
+            //    new Claim(JwtRegisteredClaimNames.Sub, email),
+            //    new Claim(ClaimTypes.Email, email),
+            //    new Claim(ClaimTypes.Role, role),
+            //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            //};
+            var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
-                new Claim(ClaimTypes.Email, email),
-                new Claim(ClaimTypes.Role, role),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim("email", email),  // Store email under "email"
+                new Claim("role", role)    // Store role under "role" instead of ClaimTypes.Role
             };
+
 
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
