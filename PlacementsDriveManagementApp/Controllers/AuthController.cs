@@ -42,7 +42,9 @@ namespace PlacementsDriveManagementApp.Controllers
                 Expires = DateTime.UtcNow.AddMinutes(60)
             });
 
-            return Ok(new { message = "Login successful" });
+            return Ok(new { 
+                message = "Successfully logged in.",
+                token });
         }
 
         [HttpPost("logout")]
