@@ -19,6 +19,8 @@ $(document).ready(function () {
                         data: JSON.stringify({ token: data.token }),
                         xhrFields: { withCredentials: true }, // Ensure cookies are stored
                         success: function () {
+                            localStorage.setItem("userEmail", email);
+
                             // Redirect based on role
                             if (role === 1) window.location.href = "/student";
                             else if (role === 2) window.location.href = "/admin";

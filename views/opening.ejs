@@ -1,1 +1,66 @@
-this is to create openings
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Openings</title>
+    <link rel="stylesheet" href="/stylesheets/output.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-min.js"></script>
+</head>
+<body class="bg-gray-100 p-6">
+
+    <div class="max-w-4xl mx-auto bg-white p-6 shadow-lg rounded-lg">
+        <h1 class="text-2xl font-bold mb-4">Job Openings</h1>
+
+        <!-- Job Openings List -->
+        <div class="space-y-4">
+            <div class="p-4 border rounded-lg shadow-md" data-bind="foreach: jobs">
+                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-800" data-bind="text: companyName"></h2>
+                        <p class="text-gray-600"><strong>Role:</strong> <span data-bind="text: jobTitle"></span></p>
+                        <p class="text-gray-500"><strong>Last Date:</strong> <span data-bind="text: formattedLastDate"></span></p>
+                    </div>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+                        data-bind="click: apply">
+                        Apply
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function Job(data) {
+            this.jobTitle = ko.observable(data.jobTitle);
+            this.companyName = ko.observable(data.companyName || "Unknown Company");
+            this.lastDate = ko.observable(data.lastDate);
+            this.formattedLastDate = ko.computed(() => new Date(this.lastDate()).toLocaleDateString());
+            this.apply = function() {
+                alert("Applied for " + this.jobTitle() + " at " + this.companyName());
+            };
+        }
+
+        function JobViewModel() {
+            var self = this;
+            self.jobs = ko.observableArray([]);
+
+            self.fetchJobs = function() {
+                fetch('https://localhost:7209/api/Opening')
+                    .then(response => response.json())
+                    .then(data => {
+                        let jobObjects = data.map(job => new Job(job));
+                        self.jobs(jobObjects);
+                    })
+                    .catch(error => console.error("Error fetching jobs:", error));
+            };
+
+            // Fetch jobs on page load
+            self.fetchJobs();
+        }
+
+        ko.applyBindings(new JobViewModel());
+    </script>
+
+</body>
+</html>

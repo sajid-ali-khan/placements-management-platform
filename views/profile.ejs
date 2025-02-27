@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+    <link rel="stylesheet" href="/stylesheets/output.css">
+</head>
+<body class="bg-gray-100">
+    <div class="max-w-md mx-auto mt-10 bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-gray-700 text-center">Student Profile</h2>
+        <div id="profile" class="mt-4 text-gray-600 text-lg"></div>
+    </div>
+
+    <script>
+        async function fetchStudentProfile() {
+            const userEmail = localStorage.getItem("userEmail");
+            
+            if (!userEmail) {
+                document.getElementById("profile").innerHTML = `<p class="text-red-500">No user logged in.</p>`;
+                return;
+            }
+
+            try {
+                const encodedEmail = encodeURIComponent(userEmail); // Encode email for safe URL usage
+                const apiUrl = `https://localhost:7209/api/Student/email/${encodedEmail}`;
+                
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error("Failed to fetch student data.");
+                }
+
+                const student = await response.json();
+
+                // Format Date of Birth
+                const dob = new Date(student.dob).toISOString().split('T')[0];
+
+                document.getElementById("profile").innerHTML = `
+                    <p><strong>ID:</strong> ${student.id}</p>
+                    <p><strong>Name:</strong> ${student.name}</p>
+                    <p><strong>Email:</strong> ${student.email}</p>
+                    <p><strong>Phone:</strong> ${student.phone}</p>
+                    <p><strong>Date of Birth:</strong> ${dob}</p>
+                `;
+            } catch (error) {
+                console.error("Error fetching student data:", error);
+                document.getElementById("profile").innerHTML = `<p class="text-red-500">Failed to load profile.</p>`;
+            }
+        }
+
+        fetchStudentProfile();
+    </script>
+</body>
+</html>
