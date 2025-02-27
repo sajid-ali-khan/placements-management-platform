@@ -42,6 +42,11 @@ namespace PlacementsDriveManagementApp.Repository
            return _context.Students.Where(s => s.Id == studentId).FirstOrDefault();
         }
 
+        public string GetStudentIdByEmail(string email)
+        {
+            return _context.Students.Where(s => s.Email.ToUpper() == email.ToUpper()).Select(s => s.Id).FirstOrDefault();
+        }
+
         public ICollection<Student> GetStudents()
         {
             return _context.Students.ToList();

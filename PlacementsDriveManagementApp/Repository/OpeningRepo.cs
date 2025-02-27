@@ -1,4 +1,5 @@
-﻿using PlacementsDriveManagementApp.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PlacementsDriveManagementApp.Data;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Models;
 
@@ -21,7 +22,12 @@ namespace PlacementsDriveManagementApp.Repository
 
         public ICollection<Application> GetApplicationsByOpening(int openingId)
         {
-            return _context.Openings.Where(op => op.Id == openingId).Select(op => op.Applications).FirstOrDefault();
+            return _context.Applications
+                .Where(ap => ap.OpeningId == openingId)
+                .Include(ap => ap.Student)
+                .Include(ap => ap.Opening)
+                    .ThenInclude(o => o.Company)
+                .ToList();
         }
 
         public Company GetCompanyByOpening(int openingId)
@@ -36,7 +42,8 @@ namespace PlacementsDriveManagementApp.Repository
 
         public ICollection<Opening> GetOpenings()
         {
-            return _context.Openings.OrderBy(op => op.Id).ToList();
+            return _context.Openings
+                .OrderBy(op => op.Id).ToList();
         }
 
         public bool OpeningExists(int openingId)

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PlacementsDriveManagementApp.Dto;
+using PlacementsDriveManagementApp.DTOs;
 using PlacementsDriveManagementApp.Helper;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Models;
@@ -97,7 +98,7 @@ namespace PlacementsDriveManagementApp.Controllers
 
 
         [HttpGet("{companyId}/applications")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Application>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ApplicationDetailDto>))]
         [ProducesResponseType(400)]
         public IActionResult GetApplicationsByCompany(int companyId)
         {
@@ -106,7 +107,7 @@ namespace PlacementsDriveManagementApp.Controllers
                 return NotFound(ModelState);
             }
 
-            var applications = _mapper.Map<List<ApplicationDto>>(_companyRepo.GetApplicationsByCompany(companyId));
+            var applications = _mapper.Map<List<ApplicationDetailDto>>(_companyRepo.GetApplicationsByCompany(companyId));
 
             if (!ModelState.IsValid)
             {

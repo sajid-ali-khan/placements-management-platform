@@ -120,8 +120,10 @@ namespace PlacementsDriveManagementApp.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if (!_studentRepo.StudentExists(applicationCreateDto.StudentId)){
-                ModelState.AddModelError("", $"A student, with studentId = {applicationCreateDto.StudentId}, does not exist.");
+
+            string studentId = _studentRepo.GetStudentIdByEmail(applicationCreateDto.StudentEmail);
+            if (studentId is null){
+                ModelState.AddModelError("", $"A student, with email = {applicationCreateDto.StudentEmail}, does not exist.");
                 return BadRequest(ModelState);
             }
 
@@ -138,7 +140,7 @@ namespace PlacementsDriveManagementApp.Controllers
 
             var application = new Application
             {
-                StudentId = applicationCreateDto.StudentId,
+                StudentId = studentId,
                 OpeningId = applicationCreateDto.OpeningId,
                 ResumeId = applicationCreateDto.ResumeId,
                 Status = ApplicationStatus.Pending
