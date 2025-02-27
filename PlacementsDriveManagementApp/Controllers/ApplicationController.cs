@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PlacementsDriveManagementApp.Dto;
+using PlacementsDriveManagementApp.DTOs;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Models;
 
@@ -25,43 +26,6 @@ namespace PlacementsDriveManagementApp.Controllers
             _resumeRepo = resumeRepo;
             _mapper = mapper;
         }
-
-        [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Application>))]
-        [ProducesResponseType(400)]
-        public IActionResult GetApplications()
-        {
-            var applications = _mapper.Map<List<ApplicationDto>>(_applicationRepo.GetApplications());
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            return Ok(applications);
-        }
-
-
-        [HttpGet("{applicationId}")]
-        [ProducesResponseType(200, Type = typeof(Application))]
-        [ProducesResponseType(400)]
-        public IActionResult GetApplicationById(int applicationId)
-        {
-            if (!_applicationRepo.ApplicationExists(applicationId))
-            {
-                return NotFound(ModelState);
-            }
-
-            var application = _mapper.Map<ApplicationDto>(_applicationRepo.GetApplicationById(applicationId));
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            return Ok(application);
-        }
-
 
         [HttpGet("{applicationId}/opening")]
         [ProducesResponseType(200, Type = typeof(Opening))]
@@ -124,6 +88,28 @@ namespace PlacementsDriveManagementApp.Controllers
             return Ok(resume);
         }
 
+
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ApplicationDetailDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetDetailedApplications()
+        {
+            var applications = _applicationRepo.GetApplications();
+            var detailedApplications = _mapper.Map<List<ApplicationDetailDto>>(applications);
+
+            return Ok(detailedApplications);
+        }
+
+        [HttpGet("{applicationId}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ApplicationDetailDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetDetailedApplicationById(int applicationId)
+        {
+            var application = _applicationRepo.GetApplicationById(applicationId);
+            var detailedApplication = _mapper.Map<ApplicationDetailDto>(application);
+
+            return Ok(detailedApplication);
+        }
 
         [HttpPost]
         [ProducesResponseType(200)]

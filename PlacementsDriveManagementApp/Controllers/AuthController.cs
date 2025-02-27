@@ -29,7 +29,7 @@ namespace PlacementsDriveManagementApp.Controllers
 
             if (user is null)
             {
-                return Unauthorized("Login unsuccessful. Invalid email or password");
+                return Unauthorized(new { message = "Login unsuccessful. Invalid email or password" });
             }
 
             var token = _jwtService.GenerateToken(user.Email, user.Role.ToString());

@@ -1,4 +1,7 @@
-﻿  using PlacementsDriveManagementApp.Data;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using PlacementsDriveManagementApp.Data;
+using PlacementsDriveManagementApp.DTOs;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Models;
 
@@ -7,10 +10,12 @@ namespace PlacementsDriveManagementApp.Repository
     public class ApplicationRepo : IApplicationRepo
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public ApplicationRepo(DataContext context)
+        public ApplicationRepo(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public bool ApplicationExists(int applicationId)
@@ -26,7 +31,12 @@ namespace PlacementsDriveManagementApp.Repository
 
         public Application GetApplicationById(int applicationId)
         {
-            return _context.Applications.Where(ap => ap.Id == applicationId).FirstOrDefault();
+            return _context.Applications
+                .Where(ap => ap.Id == applicationId)
+                .Include(ap => ap.Student)
+                .Include(ap => ap.Opening)
+                .ThenInclude(o => o.Company)
+                .FirstOrDefault();
         }
 
         public Opening GetApplicationOpening(int applicationId)
@@ -41,12 +51,20 @@ namespace PlacementsDriveManagementApp.Repository
 
         public ICollection<Application> GetApplications()
         {
-            return _context.Applications.OrderBy(ap => ap.AppliedDate).ToList();
+            return _context.Applications
+                .Include(a => a.Student)
+                .Include(a => a.Opening)
+                .ThenInclude(o => o.Company)
+                .ToList();
         }
+
 
         public Student GetStudentByApplication(int applicationId)
         {
-            return _context.Applications.Where(ap => ap.Id == applicationId).Select(ap => ap.Student).FirstOrDefault();
+            return _context.Applications
+                .Where(ap => ap.Id == applicationId)
+                .Select(ap => ap.Student)
+                .FirstOrDefault();
         }
 
         public bool Save()

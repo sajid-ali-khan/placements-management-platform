@@ -1,4 +1,5 @@
-﻿using PlacementsDriveManagementApp.Models;
+﻿using PlacementsDriveManagementApp.DTOs;
+using PlacementsDriveManagementApp.Models;
 
 namespace PlacementsDriveManagementApp.Interfaces
 {
