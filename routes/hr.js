@@ -6,4 +6,8 @@ router.get("/", authenticate, authorizeRole("HR"), (req, res) => {
     res.render("dashboard-hr")
 });
 
+router.get("/opening", authenticate, authorizeRole("HR"), (req, res) => {
+    res.render("opening");
+})
+
 module.exports = router;
