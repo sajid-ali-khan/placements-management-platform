@@ -23,7 +23,7 @@ namespace PlacementsDriveManagementApp.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Opening>))]
         public IActionResult GetOpenings()
         {
-            var openings = _mapper.Map<List<OpeningDto>>(_openingRepo.GetOpenings());
+            var openings = _mapper.Map<List<OpeningDetailDto>>(_openingRepo.GetOpenings());
 
             if (!ModelState.IsValid)
             {

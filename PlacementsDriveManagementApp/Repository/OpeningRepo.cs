@@ -14,6 +14,18 @@ namespace PlacementsDriveManagementApp.Repository
             _context = context;
         }
 
+        public Opening GetOpeningById(int openingId)
+        {
+            return _context.Openings.Where(op => op.Id == openingId).FirstOrDefault();
+        }
+
+        public ICollection<Opening> GetOpenings()
+        {
+            return _context.Openings
+                .Include(op => op.Company)
+                .ToList();
+        }
+
         public bool CreateOpening(Opening opening)
         {
             _context.Openings.Add(opening);
@@ -33,17 +45,6 @@ namespace PlacementsDriveManagementApp.Repository
         public Company GetCompanyByOpening(int openingId)
         {
             return _context.Openings.Where(op => op.Id == openingId).Select(op => op.Company).FirstOrDefault();
-        }
-
-        public Opening GetOpeningById(int openingId)
-        {
-            return _context.Openings.Where(op => op.Id == openingId).FirstOrDefault();
-        }
-
-        public ICollection<Opening> GetOpenings()
-        {
-            return _context.Openings
-                .OrderBy(op => op.Id).ToList();
         }
 
         public bool OpeningExists(int openingId)

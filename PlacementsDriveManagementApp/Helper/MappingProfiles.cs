@@ -31,6 +31,9 @@ namespace PlacementsDriveManagementApp.Helper
                 .ForMember(dest => dest.Package, opt => opt.MapFrom(src => src.Package))
                 .ForMember(dest => dest.JoiningDate, opt => opt.MapFrom(src => src.JoiningDate))
                 .ForMember(dest => dest.PlaceOfWork, opt => opt.MapFrom(src => src.PlaceOfWork));
+
+            CreateMap<Opening, OpeningDetailDto>()
+                .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Name));
         }
     }
 }
