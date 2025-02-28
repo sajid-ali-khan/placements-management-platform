@@ -5,10 +5,10 @@ const { authenticate, authorizeRole } = require("../middlewares/authMiddleware")
 router.get("/", authenticate, authorizeRole("STUDENT"), (req, res) => {
     res.render("dashboard-student")
 });
-router.get("/openings", (req, res) => {
+router.get("/openings", authenticate, authorizeRole("STUDENT"), (req, res) => {
     res.render("opening")
 });
-router.get("/profile", (req, res) => {
+router.get("/profile", authenticate, authorizeRole("STUDENT"), (req, res) => {
     res.render("profile");
 });
 
