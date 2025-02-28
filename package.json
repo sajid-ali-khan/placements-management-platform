@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx nodemon server.js",
-    "tailwind": "npx @tailwindcss/cli -i ./public/stylesheets/input.css -o ./public/stylesheets/output.css --watch"
+    "css": "npx @tailwindcss/cli -i ./public/stylesheets/input.css -o ./public/stylesheets/output.css --watch"
   },
   "keywords": [],
   "author": "",
