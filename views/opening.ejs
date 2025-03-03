@@ -37,10 +37,13 @@
 
         this.apply = function () {
             if (this.isActive()) {
-                const openingId = this.openingId;
+                const openingId = parseInt(this.openingId(), 10); // Ensure it's a valid number
+                console.log("Opening ID:", openingId);
                 window.location.href = `/student/apply?openingId=${openingId}`;
             }
         };
+
+
 
     }
 
