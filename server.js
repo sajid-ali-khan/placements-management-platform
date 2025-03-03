@@ -5,6 +5,7 @@ const cors = require("cors");
 const adminRoutes = require("./routes/admin");
 const studentRoutes = require("./routes/student");
 const hrRoutes = require("./routes/hr");
+const { authenticate, authorizeRole } = require("./middlewares/authMiddleware");
 
 const PORT = 3000;
 const SERVER_NAME = "localhost";
@@ -22,6 +23,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.set("view engine", "ejs");
+
+app.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    next();
+});
+
 
 app.post("/store-token", (req, res) => {
     const { token } = req.body;
@@ -43,14 +52,16 @@ app.post("/store-token", (req, res) => {
 app.get("/", (req, res) => res.render("home"));
 app.get("/login", (req, res) => res.render("login"));
 
-app.use("/admin", adminRoutes);
-app.use("/student", studentRoutes);
+app.use("/admin", adminRoutes, authenticate, authorizeRole("STUDENT"));
+app.use("/student", studentRoutes, authenticate, authorizeRole("STUDENT"));
 app.use("/hr", hrRoutes);
 
-app.get("/logout", (req, res) => {
-    res.clearCookie("token");
-    res.redirect("/login");
+app.get('/logout', (req, res) => {
+    res.setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
+    res.clearCookie('token');
+    res.redirect('/login');
 });
+
 
 // 404 Handler
 app.use((req, res) => {
