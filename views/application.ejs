@@ -1,18 +1,24 @@
-<div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <h2 class="text-xl font-bold text-gray-700 text-center">Your Applications</h2>
 
     <table class="w-full mt-4 border-collapse border border-gray-300">
         <thead>
             <tr class="bg-gray-200">
-                <th class="border border-gray-300 px-4 py-2">ID</th>
-                <th class="border border-gray-300 px-4 py-2">Opening ID</th>
+                <th class="border border-gray-300 px-4 py-2">Application ID</th>
+                <th class="border border-gray-300 px-4 py-2">Company</th>
+                <th class="border border-gray-300 px-4 py-2">Job Title</th>
                 <th class="border border-gray-300 px-4 py-2">Applied Date</th>
                 <th class="border border-gray-300 px-4 py-2">Status</th>
+                <th class="border border-gray-300 px-4 py-2">Interview Slot</th>
+                <th class="border border-gray-300 px-4 py-2">Appeared</th>
+                <th class="border border-gray-300 px-4 py-2">Package</th>
+                <th class="border border-gray-300 px-4 py-2">Joining Date</th>
+                <th class="border border-gray-300 px-4 py-2">Work Location</th>
             </tr>
         </thead>
         <tbody id="applicationsTable">
             <tr>
-                <td colspan="4" class="text-center text-gray-500 p-4">Loading applications...</td>
+                <td colspan="10" class="text-center text-gray-500 p-4">Loading applications...</td>
             </tr>
         </tbody>
     </table>
@@ -39,7 +45,7 @@
         } catch (error) {
             console.error("Error fetching applications:", error);
             document.getElementById("applicationsTable").innerHTML = 
-                `<tr><td colspan="4" class="text-center text-red-500 p-4">Failed to load applications.</td></tr>`;
+                `<tr><td colspan="10" class="text-center text-red-500 p-4">Failed to load applications.</td></tr>`;
         }
     });
 
@@ -48,7 +54,7 @@
         tableBody.innerHTML = ""; // Clear previous data
 
         if (applications.length === 0) {
-            tableBody.innerHTML = `<tr><td colspan="4" class="text-center text-gray-500 p-4">No applications found.</td></tr>`;
+            tableBody.innerHTML = `<tr><td colspan="10" class="text-center text-gray-500 p-4">No applications found.</td></tr>`;
             return;
         }
 
@@ -57,22 +63,26 @@
             row.classList.add("border", "border-gray-300");
 
             row.innerHTML = `
-                <td class="border border-gray-300 px-4 py-2">${app.id}</td>
-                <td class="border border-gray-300 px-4 py-2">${app.openingId}</td>
-                <td class="border border-gray-300 px-4 py-2">${new Date(app.appliedDate).toLocaleDateString()}</td>
-                <td class="border border-gray-300 px-4 py-2">${getStatus(app.status)}</td>
+                <td class="border border-gray-300 px-4 py-2">${app.applicationId}</td>
+                <td class="border border-gray-300 px-4 py-2">${app.companyName}</td>
+                <td class="border border-gray-300 px-4 py-2">${app.jobTitle}</td>
+                <td class="border border-gray-300 px-4 py-2">${formatDate(app.appliedDate)}</td>
+                <td class="border border-gray-300 px-4 py-2">${app.applicationStatus}</td>
+                <td class="border border-gray-300 px-4 py-2">${app.interviewSlot ? formatDateTime(app.interviewSlot) : "N/A"}</td>
+                <td class="border border-gray-300 px-4 py-2">${app.studentAppeared !== null ? (app.studentAppeared ? "Yes" : "No") : "N/A"}</td>
+                <td class="border border-gray-300 px-4 py-2">${app.package !== null ? app.package + " LPA" : "N/A"}</td>
+                <td class="border border-gray-300 px-4 py-2">${app.joiningDate ? formatDate(app.joiningDate) : "N/A"}</td>
+                <td class="border border-gray-300 px-4 py-2">${app.placeOfWork || "N/A"}</td>
             `;
             tableBody.appendChild(row);
         });
     }
 
-    function getStatus(statusCode) {
-        switch (statusCode) {
-            case 1: return "Pending";
-            case 2: return "Interview Scheduled";
-            case 3: return "Selected";
-            case 4:return "Rejected";
-            default: return "Unknown";
-        }
+    function formatDate(dateString) {
+        return dateString ? new Date(dateString).toLocaleDateString() : "N/A";
+    }
+
+    function formatDateTime(dateTimeString) {
+        return dateTimeString ? new Date(dateTimeString).toLocaleString() : "N/A";
     }
 </script>
