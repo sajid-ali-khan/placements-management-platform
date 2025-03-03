@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PlacementsDriveManagementApp.Dto;
+using PlacementsDriveManagementApp.DTOs;
 using PlacementsDriveManagementApp.Helper;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Models;
@@ -78,7 +79,7 @@ namespace PlacementsDriveManagementApp.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetApplicationsByStudentEmail(string studentEmail)
         {
-            var students = _mapper.Map<List<ApplicationDto>>(_studentRepo.GetApplicationsByStudentEmail(studentEmail));
+            var students = _mapper.Map<List<ApplicationDetailDto>>(_studentRepo.GetApplicationsByStudentEmail(studentEmail));
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

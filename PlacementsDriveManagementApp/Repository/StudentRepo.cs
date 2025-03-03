@@ -1,4 +1,5 @@
-﻿using PlacementsDriveManagementApp.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PlacementsDriveManagementApp.Data;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Models;
 
@@ -21,7 +22,12 @@ namespace PlacementsDriveManagementApp.Repository
 
         public ICollection<Application> GetApplicationsByStudentEmail(string studentEmail)
         {
-            return _context.Students.Where(s => s.Email.ToUpper() == studentEmail.ToUpper()).Select(s => s.Applications).FirstOrDefault();
+            return _context.Applications
+                .Where(a => a.Student.Email.ToUpper() == studentEmail.ToUpper())
+                .Include(a => a.Student)
+                .Include(a => a.Opening)
+                .ThenInclude(o => o.Company)
+                .ToList();
         }
 
         public string GetHashedPassword(string email)
