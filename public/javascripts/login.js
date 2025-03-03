@@ -2,26 +2,23 @@ $(document).ready(function () {
     $("#login-btn").on("click", function () {
         const email = $("#email").val();
         const password = $("#password").val();
-        const role = parseInt($("#role").val()); // Convert role to integer
+        const role = parseInt($("#role").val());
 
         $.ajax({
-            url: "https://localhost:7209/api/Auth/login", // Ensure backend API is correct
+            url: "https://localhost:7209/api/Auth/login",
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify({ email, password, role }),
             success: function (data) {
                 if (data.token) {
-                    // Send token to Express to store in cookie
                     $.ajax({
-                        url: "/store-token", // Ensure Express backend handles this
+                        url: "/store-token",
                         method: "POST",
                         contentType: "application/json",
                         data: JSON.stringify({ token: data.token }),
-                        xhrFields: { withCredentials: true }, // Ensure cookies are stored
+                        xhrFields: { withCredentials: true },
                         success: function () {
                             localStorage.setItem("userEmail", email);
-
-                            // Redirect based on role
                             if (role === 1) window.location.href = "/student";
                             else if (role === 2) window.location.href = "/admin";
                             else window.location.href = "/hr";

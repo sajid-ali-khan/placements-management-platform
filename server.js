@@ -57,7 +57,7 @@ app.use("/student", studentRoutes, authenticate, authorizeRole("STUDENT"));
 app.use("/hr", hrRoutes);
 
 app.get('/logout', (req, res) => {
-    res.setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
+    res.setHeader('Clear-Site-Data', '"cache", "cookies", "storage"');
     res.clearCookie('token');
     res.redirect('/login');
 });

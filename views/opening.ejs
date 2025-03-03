@@ -22,6 +22,7 @@
 <script src="/javascripts/knockout.js"></script>
 <script>
     function Job(data) {
+        this.openingId = ko.observable(data.id)
         this.companyName = ko.observable(data.companyName);
         this.jobTitle = ko.observable(data.jobTitle);
         this.description = ko.observable(data.description);
@@ -36,9 +37,11 @@
 
         this.apply = function () {
             if (this.isActive()) {
-                alert(`Applied for ${this.jobTitle()} at ${this.companyName()}`);
+                const openingId = this.openingId;
+                window.location.href = `/student/apply?openingId=${openingId}`;
             }
         };
+
     }
 
     function JobViewModel() {
