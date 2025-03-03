@@ -73,12 +73,12 @@ namespace PlacementsDriveManagementApp.Controllers
         }
 
 
-        [HttpGet("{studentId}/applications")]
+        [HttpGet("{studentEmail}/applications")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Application>))]
         [ProducesResponseType(400)]
-        public IActionResult GetApplicationsByStudent(string studentId)
+        public IActionResult GetApplicationsByStudentEmail(string studentEmail)
         {
-            var students = _mapper.Map<List<ApplicationDto>>(_studentRepo.GetApplicationsByStudent(studentId));
+            var students = _mapper.Map<List<ApplicationDto>>(_studentRepo.GetApplicationsByStudentEmail(studentEmail));
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

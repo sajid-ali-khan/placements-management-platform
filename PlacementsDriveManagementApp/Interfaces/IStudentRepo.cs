@@ -8,7 +8,7 @@ namespace PlacementsDriveManagementApp.Interfaces
         Student GetStudentById(string studentId);
         Student GetStudentByEmail(string email);
         string GetStudentIdByEmail(string email);
-        ICollection<Application> GetApplicationsByStudent(string studentId);
+        ICollection<Application> GetApplicationsByStudentEmail(string studentEmail);
         bool StudentExists(string studentId);
         bool StudentExistsByEmail(string Email);
         bool CreateStudent(Student student);

@@ -19,9 +19,9 @@ namespace PlacementsDriveManagementApp.Repository
             return Save();
         }
 
-        public ICollection<Application> GetApplicationsByStudent(string studentId)
+        public ICollection<Application> GetApplicationsByStudentEmail(string studentEmail)
         {
-            return _context.Students.Where(s => s.Id.ToUpper() == studentId.ToUpper()).Select(s => s.Applications).FirstOrDefault();
+            return _context.Students.Where(s => s.Email.ToUpper() == studentEmail.ToUpper()).Select(s => s.Applications).FirstOrDefault();
         }
 
         public string GetHashedPassword(string email)
