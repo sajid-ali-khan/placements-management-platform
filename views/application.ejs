@@ -1,0 +1,78 @@
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-xl font-bold text-gray-700 text-center">Your Applications</h2>
+
+    <table class="w-full mt-4 border-collapse border border-gray-300">
+        <thead>
+            <tr class="bg-gray-200">
+                <th class="border border-gray-300 px-4 py-2">ID</th>
+                <th class="border border-gray-300 px-4 py-2">Opening ID</th>
+                <th class="border border-gray-300 px-4 py-2">Applied Date</th>
+                <th class="border border-gray-300 px-4 py-2">Status</th>
+            </tr>
+        </thead>
+        <tbody id="applicationsTable">
+            <tr>
+                <td colspan="4" class="text-center text-gray-500 p-4">Loading applications...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const studentEmail = localStorage.getItem("userEmail"); // Get student email from local storage
+
+        if (!studentEmail) {
+            alert("No student logged in. Redirecting to login.");
+            window.location.href = "/login";
+            return;
+        }
+
+        const apiUrl = `https://localhost:7209/api/Student/${encodeURIComponent(studentEmail)}/applications`;
+
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) throw new Error("Failed to fetch applications");
+
+            const applications = await response.json();
+            displayApplications(applications);
+        } catch (error) {
+            console.error("Error fetching applications:", error);
+            document.getElementById("applicationsTable").innerHTML = 
+                `<tr><td colspan="4" class="text-center text-red-500 p-4">Failed to load applications.</td></tr>`;
+        }
+    });
+
+    function displayApplications(applications) {
+        const tableBody = document.getElementById("applicationsTable");
+        tableBody.innerHTML = ""; // Clear previous data
+
+        if (applications.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan="4" class="text-center text-gray-500 p-4">No applications found.</td></tr>`;
+            return;
+        }
+
+        applications.forEach(app => {
+            const row = document.createElement("tr");
+            row.classList.add("border", "border-gray-300");
+
+            row.innerHTML = `
+                <td class="border border-gray-300 px-4 py-2">${app.id}</td>
+                <td class="border border-gray-300 px-4 py-2">${app.openingId}</td>
+                <td class="border border-gray-300 px-4 py-2">${new Date(app.appliedDate).toLocaleDateString()}</td>
+                <td class="border border-gray-300 px-4 py-2">${getStatus(app.status)}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function getStatus(statusCode) {
+        switch (statusCode) {
+            case 1: return "Pending";
+            case 2: return "Interview Scheduled";
+            case 3: return "Selected";
+            case 4:return "Rejected";
+            default: return "Unknown";
+        }
+    }
+</script>

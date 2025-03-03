@@ -21,5 +21,9 @@ router.get("/apply", authenticate, authorizeRole("STUDENT"), function(req, res) 
     res.render("dashboard-student", { body: "apply", openingId: req.query.openingId });
 });
 
+router.get("/applications", authenticate, authorizeRole("STUDENT"), (req, res) => {
+    res.render("dashboard-student", { body: "application" });
+});
+
 
 module.exports = router;
