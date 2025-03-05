@@ -6,13 +6,11 @@ const axios = require("axios");
 
 const router = express.Router();
 
-// Ensure upload directory exists
 const uploadDir = path.join(__dirname, "../public/uploads/resumes");
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Configure multer storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, uploadDir);
