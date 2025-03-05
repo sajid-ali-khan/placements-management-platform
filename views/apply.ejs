@@ -2,19 +2,22 @@
     <!-- Left: Job Opening Details -->
     <div class="w-full md:w-1/2 p-4 border-b md:border-r md:border-b-0">
         <h2 class="text-2xl font-bold text-gray-700 mb-2" data-bind="text: jobTitle"></h2>
-        <h3 class="text-xl font-semibold text-gray-600 mb-2" data-bind="text: companyName"></h3>
+        <h3 class="text-xl font-semibold text-gray-600 mb-2" data-bind="text: formattedCompanyName"></h3>
         <p class="text-gray-700 mb-4" data-bind="text: description"></p>
-        <p class="text-gray-500"><strong>Last Date to Apply:</strong> <span data-bind="text: lastDate"></span></p>
+        <p class="text-gray-500"><strong>Last Date to Apply:</strong> <span data-bind="text: formattedLastDate"></span>
+        </p>
     </div>
 
     <!-- Right: Resume Upload Form -->
     <div class="w-full md:w-1/2 p-4 flex flex-col items-center">
         <h2 class="text-xl font-bold text-gray-700 mb-4">Upload Your Resume</h2>
 
-        <div class="w-full max-w-xs relative border-2 border-gray-300 border-dashed rounded-lg p-6 text-center" id="dropzone">
-            <input type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="file-upload"/>
+        <div class="w-full max-w-xs relative border-2 border-gray-300 border-dashed rounded-lg p-6 text-center"
+            id="dropzone">
+            <input type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="file-upload" />
             <div>
-                <img class="mx-auto h-12 w-12" src="https://www.svgrepo.com/show/357902/image-upload.svg" alt="Upload Icon">
+                <img class="mx-auto h-12 w-12" src="https://www.svgrepo.com/show/357902/image-upload.svg"
+                    alt="Upload Icon">
                 <h3 class="mt-2 text-sm font-medium text-gray-900">
                     <span>Drag and drop</span>
                     <span class="text-indigo-600"> or browse</span>
@@ -23,16 +26,17 @@
                 <p class="mt-1 text-xs text-gray-500">PDF, DOCX up to 10MB</p>
             </div>
             <p class="mt-2 text-sm text-gray-600" data-bind="text: resumeName"></p>
-            <img src="" class="mt-4 mx-auto max-h-40 hidden" id="preview">
         </div>
 
         <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 w-full max-w-xs"
             data-bind="click: uploadResume">
             Submit Application
         </button>
+
+        <p class="mt-2 text-sm text-green-600" data-bind="text: successMessage"></p>
+        <p class="mt-2 text-sm text-red-600" data-bind="text: errorMessage"></p>
     </div>
 </div>
-
 
 <script src="/javascripts/knockout.js"></script>
 <script>
@@ -45,6 +49,16 @@
         self.description = ko.observable("");
         self.lastDate = ko.observable("");
         self.resumeName = ko.observable("No file selected");
+        self.successMessage = ko.observable("");
+        self.errorMessage = ko.observable("");
+
+        self.formattedCompanyName = ko.computed(function () {
+            return self.companyName().charAt(0).toUpperCase() + self.companyName().slice(1);
+        });
+
+        self.formattedLastDate = ko.computed(function () {
+            return new Date(self.lastDate()).toLocaleDateString("en-GB");
+        });
 
         // Get openingId from URL
         const urlParams = new URLSearchParams(window.location.search);
@@ -88,9 +102,91 @@
             }
         });
 
-        self.uploadResume = function () {
-            alert("Resume Selected: " + self.resumeName());
+        self.uploadResume = async function () {
+            self.successMessage("");
+            self.errorMessage("");
+
+            const fileInput = document.getElementById("file-upload");
+            const file = fileInput.files[0];
+
+            if (!file) {
+                self.errorMessage("Please select a resume before submitting.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("resume", file);
+
+            try {
+                // Step 1: Upload file to Node.js backend
+                const uploadResponse = await fetch("http://localhost:3000/resume/upload", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                const uploadData = await uploadResponse.json();
+
+                if (!uploadResponse.ok) {
+                    throw new Error(uploadData.message || "Failed to upload resume.");
+                }
+
+                // Extract filename and path from Node.js response
+                const filePath = uploadData.filePath;
+                const fileName = file.name;
+
+                // Step 2: Send file name and path to .NET API (Resume API)
+                const resumeData = {
+                    name: fileName,
+                    filePath: filePath,
+                    openingId: openingId
+                };
+
+                const backendResponse = await fetch("https://localhost:7209/api/Resume", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(resumeData),
+                });
+
+                if (!backendResponse.ok) {
+                    throw new Error("Failed to send resume details to .NET backend.");
+                }
+
+                const resumeResponseData = await backendResponse.json();
+                const resumeId = resumeResponseData.resumeId; // Extracting resumeId from response
+
+                // Step 3: Create an application in .NET backend
+                const studentEmail = localStorage.getItem("userEmail");
+
+                if (!studentEmail) {
+                    throw new Error("Student email not found in local storage.");
+                }
+
+                const applicationData = {
+                    studentEmail: studentEmail,
+                    openingId: openingId,
+                    resumeId: resumeId
+                };
+
+                const applicationResponse = await fetch("https://localhost:7209/api/Application", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(applicationData),
+                });
+
+                if (!applicationResponse.ok) {
+                    throw new Error("Failed to create application in .NET backend.");
+                }
+
+                self.successMessage("Application submitted successfully!");
+                self.resumeName("No file selected");
+                fileInput.value = "";
+
+            } catch (error) {
+                console.error("Upload error:", error);
+                self.errorMessage(error.message);
+            }
         };
+
     }
 
     ko.applyBindings(new ApplyViewModel());

@@ -5,6 +5,7 @@ const cors = require("cors");
 const adminRoutes = require("./routes/admin");
 const studentRoutes = require("./routes/student");
 const hrRoutes = require("./routes/hr");
+const resumeRoutes = require("./routes/resume");
 const { authenticate, authorizeRole } = require("./middlewares/authMiddleware");
 
 const PORT = 3000;
@@ -55,6 +56,7 @@ app.get("/login", (req, res) => res.render("login"));
 app.use("/admin", adminRoutes, authenticate, authorizeRole("STUDENT"));
 app.use("/student", studentRoutes, authenticate, authorizeRole("STUDENT"));
 app.use("/hr", hrRoutes);
+app.use("/resume", resumeRoutes);
 
 app.get('/logout', (req, res) => {
     res.setHeader('Clear-Site-Data', '"cache", "cookies", "storage"');
