@@ -8,7 +8,7 @@
         public string CompanyName { get; set; }
         public string JobTitle { get; set; }
         public string ApplicationStatus { get; set; }
-        public DateTime AppliedDate { get; set; }
+        public String AppliedDate { get; set; }
         public DateTime? InterviewSlot { get; set; }
         public bool? StudentAppeared { get; set; }
         public decimal? Package { get; set; }

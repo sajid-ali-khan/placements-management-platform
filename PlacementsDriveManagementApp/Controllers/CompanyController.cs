@@ -47,7 +47,7 @@ namespace PlacementsDriveManagementApp.Controllers
                 return NotFound(ModelState);
             }
 
-            var openings = _mapper.Map<List<OpeningDto>>(_companyRepo.GetCompanyOpenings(companyId));
+            var openings = _mapper.Map<List<OpeningDetailDto>>(_companyRepo.GetCompanyOpenings(companyId));
 
             if (!ModelState.IsValid)
             {

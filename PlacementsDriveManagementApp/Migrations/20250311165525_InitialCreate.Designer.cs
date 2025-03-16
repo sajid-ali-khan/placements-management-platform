@@ -12,7 +12,7 @@ using PlacementsDriveManagementApp.Data;
 namespace PlacementsDriveManagementApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250222080304_InitialCreate")]
+    [Migration("20250311165525_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

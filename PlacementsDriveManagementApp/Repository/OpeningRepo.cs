@@ -16,7 +16,10 @@ namespace PlacementsDriveManagementApp.Repository
 
         public Opening GetOpeningById(int openingId)
         {
-            return _context.Openings.Where(op => op.Id == openingId).FirstOrDefault();
+            return _context.Openings
+                .Where(op => op.Id == openingId)
+                .Include(op => op.Company)
+                .FirstOrDefault();
         }
 
         public ICollection<Opening> GetOpenings()

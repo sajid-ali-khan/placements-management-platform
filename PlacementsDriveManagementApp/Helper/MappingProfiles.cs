@@ -16,6 +16,9 @@ namespace PlacementsDriveManagementApp.Helper
             CreateMap<ApplicationUpdateDto, Application>();
             CreateMap<Student, StudentDto>();
             CreateMap<StudentDto, Student>();
+            CreateMap<Student, StudentResponseDto>()
+                .ForMember(dest => dest.FormattedDob,
+                    opt => opt.MapFrom(src => src.Dob.ToString("dd-MMM-yyyy")));
             CreateMap<StudentUpdateDto, Student>();
             CreateMap<ResumeUpdateDto, Resume>();
             CreateMap<Application, ApplicationDetailDto>()
@@ -25,7 +28,7 @@ namespace PlacementsDriveManagementApp.Helper
                 .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Opening.Company.Name))
                 .ForMember(dest => dest.JobTitle, opt => opt.MapFrom(src => src.Opening.JobTitle))
                 .ForMember(dest => dest.ApplicationStatus, opt => opt.MapFrom(src => src.Status.ToString()))
-                .ForMember(dest => dest.AppliedDate, opt => opt.MapFrom(src => src.AppliedDate))
+                .ForMember(dest => dest.AppliedDate, opt => opt.MapFrom(src => src.AppliedDate.ToString("dd-MMM-yyyy")))
                 .ForMember(dest => dest.InterviewSlot, opt => opt.MapFrom(src => src.InterviewSlot))
                 .ForMember(dest => dest.StudentAppeared, opt => opt.MapFrom(src => src.StudentAppeared))
                 .ForMember(dest => dest.Package, opt => opt.MapFrom(src => src.Package))
@@ -33,7 +36,8 @@ namespace PlacementsDriveManagementApp.Helper
                 .ForMember(dest => dest.PlaceOfWork, opt => opt.MapFrom(src => src.PlaceOfWork));
 
             CreateMap<Opening, OpeningDetailDto>()
-                .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Name));
+                .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Name))
+                .ForMember(dest => dest.LastDate, opt => opt.MapFrom(src => src.LastDate.ToString("dd-MMM-yyyy")));
         }
     }
 }

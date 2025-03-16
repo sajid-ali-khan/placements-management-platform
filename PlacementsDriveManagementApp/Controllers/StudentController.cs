@@ -30,7 +30,7 @@ namespace PlacementsDriveManagementApp.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetStudents()
         {
-            var students = _mapper.Map<List<StudentDto>>(_studentRepo.GetStudents());
+            var students = _mapper.Map<List<StudentResponseDto>>(_studentRepo.GetStudents());
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

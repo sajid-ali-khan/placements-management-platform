@@ -52,13 +52,14 @@ namespace PlacementsDriveManagementApp.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(402)]
+        [ProducesResponseType(201)] // 201 Created is more appropriate than 200 here
+        [ProducesResponseType(400)] // Bad Request
+        [ProducesResponseType(500)] // Internal Server Error
         public IActionResult CreateResume([FromBody] ResumeCreateDto resumeCreateDto)
         {
             if (resumeCreateDto == null)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Invalid resume data.");
             }
 
             var resume = new Resume()
@@ -72,13 +73,15 @@ namespace PlacementsDriveManagementApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!_resumeRepo.CreateResume(resume))
+            if (!_resumeRepo.CreateResume(resume)) // Assuming this persists the entity
             {
                 return StatusCode(500, "Something went wrong while trying to save the resume.");
             }
 
-            return StatusCode(201, "Resume saved successfully");
+            // Assuming resumeId is generated after saving, return it in the response
+            return StatusCode(201, new { resumeId = resume.Id, message = "Resume saved successfully" });
         }
+
 
         [HttpPut("{resumeId}")]
         [ProducesResponseType(204)]

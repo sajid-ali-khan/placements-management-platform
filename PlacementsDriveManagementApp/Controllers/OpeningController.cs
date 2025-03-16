@@ -43,7 +43,7 @@ namespace PlacementsDriveManagementApp.Controllers
                 return NotFound(ModelState);
             }
 
-            var opening = _mapper.Map<OpeningDto>(_openingRepo.GetOpeningById(openingId));
+            var opening = _mapper.Map<OpeningDetailDto>(_openingRepo.GetOpeningById(openingId));
 
             if (!ModelState.IsValid)
             {

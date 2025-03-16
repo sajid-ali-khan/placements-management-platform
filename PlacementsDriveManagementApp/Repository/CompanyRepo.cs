@@ -1,4 +1,5 @@
-﻿using PlacementsDriveManagementApp.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PlacementsDriveManagementApp.Data;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Models;
 
@@ -47,7 +48,7 @@ namespace PlacementsDriveManagementApp.Repository
 
         public ICollection<Company> GetCompanies()
         {
-            return _context.Companies.OrderBy(c => c.Name).ToList();
+            return _context.Companies.OrderBy(c => c.Name).OrderBy(c => c.Id).ToList();
         }
 
         public Company GetCompanyByEmail(string companyEmail)
@@ -62,8 +63,11 @@ namespace PlacementsDriveManagementApp.Repository
 
         public ICollection<Opening> GetCompanyOpenings(int companyId)
         {
-            //return _context.Openings.Where(op => op.CompanyId == companyId).ToList();
-            return _context.Companies.Where(c => c.Id == companyId).Select(c => c.Openings).FirstOrDefault();
+            return _context.Openings
+                .Where(op => op.CompanyId == companyId)
+                .Include(op => op.Company)
+                .ToList();
+            //return _context.Companies.Where(c => c.Id == companyId).Select(c => c.Openings).FirstOrDefault();
         }
 
         public string GetHashedPassword(string companyEmail)
