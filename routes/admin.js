@@ -14,6 +14,10 @@ router.get("/companies", authenticate, authorizeRole("ADMIN"), (req, res) => {
     res.render("dashboard-admin", {body: "managing_companies"})
 })
 
+router.get("/companies/new", authenticate, authorizeRole("ADMIN"), (req, res) => {
+    res.render("dashboard-admin", {body: "company_form"})
+})
+
 router.get("/companies/:id/openings", authenticate, authorizeRole("ADMIN"), (req, res) => {
     res.render("dashboard-admin", {body: "company_openings", companyId: req.params.id})
 })
