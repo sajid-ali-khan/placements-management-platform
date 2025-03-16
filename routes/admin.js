@@ -22,6 +22,10 @@ router.get("/students", authenticate, authorizeRole("ADMIN"), (req, res) => {
     res.render("dashboard-admin", {body: "managing_students"})
 })
 
+router.get("/students/new", authenticate, authorizeRole("ADMIN"), (req, res) => {
+    res.render("dashboard-admin", {body: "student_form"})
+})
+
 router.get("/placement_records", authenticate, authorizeRole("ADMIN"), (req, res) => {
     res.render("dashboard-admin", {body: "placement_records"})
 })

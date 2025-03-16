@@ -7,7 +7,6 @@ function Job(data) {
     this.lastDate = ko.observable(data.lastDate);
     this.isActive = ko.observable(data.isActive);
     this.formattedCreatedDate = ko.computed(() => new Date(this.createdDate()).toLocaleDateString());
-    this.formattedLastDate = ko.computed(() => new Date(this.lastDate()).toLocaleDateString());
     this.formattedCompanyName = ko.computed(() => {
         return this.companyName().charAt(0).toUpperCase() + this.companyName().slice(1);
     });
