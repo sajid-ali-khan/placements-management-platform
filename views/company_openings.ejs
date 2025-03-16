@@ -1,0 +1,55 @@
+<div class="max-w-4xl mx-auto space-y-4">
+    <h1 class="text-2xl font-bold text-gray-800">Job Openings</h1>
+
+    <!-- Loading message -->
+    <p class="text-gray-500 text-center" data-bind="visible: isLoading">Loading job openings...</p>
+
+    <!-- Message when there are no job openings -->
+    <p class="text-gray-500 text-center" data-bind="visible: !isLoading() && jobs().length === 0">
+        No job openings available for this company.
+    </p>
+
+    <!-- Job openings cards -->
+    <div class="space-y-4" data-bind="foreach: jobs, visible: !isLoading() && jobs().length > 0">
+        <div class="flex items-center justify-between p-4 border rounded-lg shadow-md bg-white">
+            <div>
+                <h2 class="text-xl mb-2 font-semibold text-gray-800" data-bind="text: companyName"></h2>
+                <p class="text-gray-600"><strong>Role:</strong> <span data-bind="text: jobTitle"></span></p>
+                <p class="text-gray-600"><strong>Description:</strong><br> <span data-bind="text: description"></span></p>
+                <p class="text-gray-500"><strong>Last Date to Apply:</strong> <span data-bind="text: lastDate"></span></p>
+                <p class="text-green-600 font-semibold" data-bind="visible: isActive">Open for Applications</p>
+                <p class="text-red-600 font-semibold" data-bind="visible: !isActive">Closed</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/javascripts/knockout.js"></script>
+<script>
+    function OpeningsViewModel(companyId) {
+        var self = this;
+        self.jobs = ko.observableArray([]);  // Ensure consistency in naming
+        self.isLoading = ko.observable(true); // Track loading state
+
+        // Fetch job openings from API
+        self.fetchOpenings = async function () {
+            try {
+                const apiUrl = `https://localhost:7209/api/Company/${companyId}/openings`;
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error("Failed to fetch job openings");
+                const data = await response.json();
+                self.jobs(data);
+            } catch (error) {
+                console.error("Error fetching job openings:", error);
+            } finally {
+                self.isLoading(false); // Hide loading state once done
+            }
+        };
+
+        self.fetchOpenings();
+    }
+
+    // Get company ID from the server-side template variable
+    const companyId = "<%= companyId %>";
+    ko.applyBindings(new OpeningsViewModel(companyId));
+</script>
