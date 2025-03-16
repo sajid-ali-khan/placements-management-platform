@@ -1,6 +1,10 @@
 <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <h2 class="text-xl font-bold text-gray-700 text-center">Your Applications</h2>
 
+    <input type="text" placeholder="Search applications..." 
+        class="w-full p-2 border border-gray-300 rounded mt-4"
+        data-bind="value: searchQuery, valueUpdate: 'input'">
+
     <table class="w-full mt-4 border-collapse border border-gray-300">
         <thead>
             <tr class="bg-gray-200">
@@ -16,14 +20,22 @@
                 <th class="border border-gray-300 px-4 py-2">Work Location</th>
             </tr>
         </thead>
-        <tbody id="applicationsTable">
-            <tr>
-                <td colspan="10" class="text-center text-gray-500 p-4">Loading applications...</td>
+        <tbody data-bind="foreach: filteredApplications">
+            <tr class="border border-gray-300">
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: applicationId"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: companyName"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: jobTitle"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: appliedDate"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: applicationStatus"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: interviewSlot ? interviewSlot : 'N/A'"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: studentAppeared !== null ? (studentAppeared ? 'Yes' : 'No') : 'N/A'"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: package ? package + ' LPA' : 'N/A'"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: joiningDate ? joiningDate : 'N/A'"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: placeOfWork || 'N/A'"></td>
             </tr>
         </tbody>
     </table>
 </div>
-
 
 <script src="/javascripts/knockout.js"></script>
 <script src="/javascripts/application.js"></script>
