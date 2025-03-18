@@ -23,6 +23,7 @@ const authenticate = (req, res, next) => {
 const authorizeRole = (requiredRole) => {
     return (req, res, next) => {
         if (!req.user || req.user.role !== requiredRole) {
+            console.log(req.user.role)
             return res.status(403).json({ message: "Forbidden: Insufficient privileges" });
         }
         next(); // Proceed if role matches

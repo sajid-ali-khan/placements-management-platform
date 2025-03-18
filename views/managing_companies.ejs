@@ -1,0 +1,84 @@
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold text-gray-700">Companies</h2>
+
+        <!-- Add New Company Button -->
+        <button onclick="location.href='/admin/companies/new'" 
+            class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600">
+            + Add New Company
+        </button>
+    </div>
+
+    <!-- Search Bar -->
+    <input type="text" data-bind="value: searchQuery, valueUpdate: 'input'" 
+        placeholder="Search by ID or Name" 
+        class="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+    <!-- Company Table -->
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 px-4 py-2">ID</th>
+                    <th class="border border-gray-300 px-4 py-2">Name</th>
+                    <th class="border border-gray-300 px-4 py-2">Email</th>
+                    <th class="border border-gray-300 px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: filteredCompanies">
+                <tr class="bg-white hover:bg-gray-100">
+                    <td class="border border-gray-300 px-4 py-2" data-bind="text: id"></td>
+                    <td class="border border-gray-300 px-4 py-2" data-bind="text: name"></td>
+                    <td class="border border-gray-300 px-4 py-2" data-bind="text: email"></td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <button class="bg-blue-500 text-white px-4 py-1 rounded-md hover:bg-blue-600"
+                            data-bind="click: $parent.viewOpenings">
+                            View Openings
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/javascripts/knockout.js"></script>
+<script>
+    function CompanyViewModel() {
+        var self = this;
+
+        self.companies = ko.observableArray([]);
+        self.searchQuery = ko.observable("");
+
+        self.filteredCompanies = ko.computed(function () {
+            var search = self.searchQuery().toLowerCase();
+            if (!search) {
+                return self.companies();
+            } else {
+                return ko.utils.arrayFilter(self.companies(), function (company) {
+                    return company.id.toLowerCase().includes(search) || company.name.toLowerCase().includes(search);
+                });
+            }
+        });
+
+        self.fetchCompanies = async function () {
+            try {
+                const apiUrl = "https://localhost:7209/api/Company";
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error("Failed to fetch companies");
+                const data = await response.json();
+                self.companies(data);
+            } catch (error) {
+                console.error("Error fetching companies:", error);
+            }
+        };
+
+        self.viewOpenings = function (company) {
+            window.location.href = `/admin/companies/${company.id}/openings`;
+        };
+
+        self.fetchCompanies();
+    }
+
+    ko.applyBindings(new CompanyViewModel());
+</script>
