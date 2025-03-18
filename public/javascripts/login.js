@@ -1,8 +1,17 @@
 $(document).ready(function () {
     $("#login-btn").on("click", function () {
-        const email = $("#email").val();
-        const password = $("#password").val();
+        const email = $("#email").val().trim();
+        const password = $("#password").val().trim();
         const role = parseInt($("#role").val());
+        const errorContainer = $("#error-message");
+
+        // Clear previous error message
+        errorContainer.text("").addClass("hidden");
+
+        if (!email || !password) {
+            errorContainer.text("Email and password are required.").removeClass("hidden");
+            return;
+        }
 
         $.ajax({
             url: "https://localhost:7209/api/Auth/login",
@@ -21,18 +30,21 @@ $(document).ready(function () {
                             localStorage.setItem("userEmail", email);
                             if (role === 1) window.location.href = "/student";
                             else if (role === 2) window.location.href = "/admin";
-                            else window.location.href = "/hr";
+                            else if (role === 3) window.location.href = "/hr";
+                            else {
+                                errorContainer.text("Invalid role selection.").removeClass("hidden");
+                            }
                         },
                         error: function (err) {
                             console.error("Error storing token:", err);
                         }
                     });
                 } else {
-                    alert("Login failed: " + data.message);
+                    errorContainer.text("Login failed: " + (data.message || "Invalid credentials")).removeClass("hidden");
                 }
             },
             error: function (err) {
-                console.error("Login API error:", err);
+                errorContainer.text("Invalid credentials. Please try again.").removeClass("hidden");
             }
         });
     });
