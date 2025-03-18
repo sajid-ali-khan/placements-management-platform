@@ -8,10 +8,9 @@ router.get("/", authenticate, authorizeRole("HR"), (req, res) => {
 
 router.get("/opening", authenticate, authorizeRole("HR"), (req, res) => {
     res.render("dashboard-hr", {body: "hr-opening"});
-})
+});
 
 router.get("/profile", authenticate, authorizeRole("HR"), (req, res) => {
-    res.render("dashboard-hr", {body: "hr-profile"})
-})
-
+    res.render("dashboard-hr", { body: "hr-profile", email: req.user.email });
+});
 module.exports = router;
