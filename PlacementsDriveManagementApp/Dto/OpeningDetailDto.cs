@@ -6,7 +6,7 @@
         public string JobTitle { get; set; }
         public string Description { get; set; }
         public string CreatedDate { get; set; }
-        public String LastDate { get; set; }
+        public string LastDate { get; set; }
         public bool IsActive { get; set; }
         public string CompanyName { get; set; }
     }
