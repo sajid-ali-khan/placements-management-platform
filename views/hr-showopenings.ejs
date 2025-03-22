@@ -1,0 +1,47 @@
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <div class="flex justify-between items-center mb-4">
+        <!-- Company Name -->
+        <h2 class="text-2xl font-semibold text-gray-700" data-bind="text: companyName"></h2>
+
+        <!-- Create New Opening Button -->
+        <button data-bind="click: toggleCreateForm"
+    class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600">
+    + Create Opening
+</button>
+
+    </div>
+
+    <!-- Error Message -->
+    <p class="text-red-500" data-bind="visible: errorMessage, text: errorMessage"></p>
+
+    <!-- Search Bar -->
+    <input type="text" placeholder="Search by Job Title"
+        class="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        data-bind="value: searchQuery, valueUpdate: 'input'">
+
+    <!-- Job Openings Table -->
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 px-4 py-2">ID</th>
+                    <th class="border border-gray-300 px-4 py-2">Job Title</th>
+                    <th class="border border-gray-300 px-4 py-2">Description</th>
+                    <th class="border border-gray-300 px-4 py-2">Last Date</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: filteredOpenings">
+                <tr class="bg-white hover:bg-gray-100">
+                    <td class="border border-gray-300 px-4 py-2" data-bind="text: id"></td>
+                    <td class="border border-gray-300 px-4 py-2" data-bind="text: jobTitle"></td>
+                    <td class="border border-gray-300 px-4 py-2" data-bind="text: description"></td>
+                    <td class="border border-gray-300 px-4 py-2" data-bind="text: lastDate"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Import Knockout.js -->
+<script src="/javascripts/knockout.js"></script>
+<script src="/javascripts/hr-showopening.js"></script>
