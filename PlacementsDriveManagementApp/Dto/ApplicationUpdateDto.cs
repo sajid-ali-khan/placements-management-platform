@@ -9,6 +9,6 @@ namespace PlacementsDriveManagementApp.Dto
         public bool? StudentAppeared { get; set; }
         public decimal? Package { get; set; }
         public DateTime? JoiningDate { get; set; }
-        public string PlaceOfWork { get; set; }
+        public string? PlaceOfWork { get; set; }
     }
 }

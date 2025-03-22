@@ -5,6 +5,8 @@ using PlacementsDriveManagementApp.Dto;
 using PlacementsDriveManagementApp.DTOs;
 using PlacementsDriveManagementApp.Interfaces;
 using PlacementsDriveManagementApp.Models;
+using static System.Net.Mime.MediaTypeNames;
+using Application = PlacementsDriveManagementApp.Models.Application;
 
 namespace PlacementsDriveManagementApp.Controllers
 {
@@ -138,7 +140,7 @@ namespace PlacementsDriveManagementApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var application = new Application
+            var application = new Application()
             {
                 StudentId = studentId,
                 OpeningId = applicationCreateDto.OpeningId,
@@ -158,6 +160,38 @@ namespace PlacementsDriveManagementApp.Controllers
 
             return StatusCode(201, "Application saved successfully.");
         }
+
+        [HttpPut("{applicationId}/status")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public IActionResult UpdateApplicationStatus(int applicationId, [FromQuery] ApplicationStatus applicationStatus)
+        {
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var existingApplication = _applicationRepo.GetApplicationById(applicationId);
+
+            if (existingApplication == null)
+                return NotFound();
+
+            var application = new ApplicationUpdateDto()
+            {
+                Status = applicationStatus
+            };
+
+            _mapper.Map(application, existingApplication);
+
+            if (!_applicationRepo.UpdateApplication(existingApplication))
+            {
+                ModelState.AddModelError("", "Something went wrong, try again.");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
 
         [HttpPut("{applicationId}")]
         [ProducesResponseType(204)]
