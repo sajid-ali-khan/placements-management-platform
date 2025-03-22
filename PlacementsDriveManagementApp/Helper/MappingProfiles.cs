@@ -37,7 +37,9 @@ namespace PlacementsDriveManagementApp.Helper
 
             CreateMap<Opening, OpeningDetailDto>()
                 .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Name))
-                .ForMember(dest => dest.LastDate, opt => opt.MapFrom(src => src.LastDate.ToString("dd-MMM-yyyy")));
+                .ForMember(dest => dest.LastDate, opt => opt.MapFrom(src => src.LastDate.ToString("dd-MMM-yyyy")))
+                .ForMember(dest => dest.CreatedDate,
+                    opt => opt.MapFrom(src => src.CreatedDate.ToString("dd-MMM-yyyy")));
         }
     }
 }
