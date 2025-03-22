@@ -161,37 +161,7 @@ namespace PlacementsDriveManagementApp.Controllers
             return StatusCode(201, "Application saved successfully.");
         }
 
-        [HttpPut("{applicationId}/status")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(400)]
-        public IActionResult UpdateApplicationStatus(int applicationId, [FromQuery] ApplicationStatus applicationStatus)
-        {
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var existingApplication = _applicationRepo.GetApplicationById(applicationId);
-
-            if (existingApplication == null)
-                return NotFound();
-
-            var application = new ApplicationUpdateDto()
-            {
-                Status = applicationStatus
-            };
-
-            _mapper.Map(application, existingApplication);
-
-            if (!_applicationRepo.UpdateApplication(existingApplication))
-            {
-                ModelState.AddModelError("", "Something went wrong, try again.");
-                return StatusCode(500, ModelState);
-            }
-
-            return NoContent();
-        }
-
+        
 
         [HttpPut("{applicationId}")]
         [ProducesResponseType(204)]
@@ -199,9 +169,6 @@ namespace PlacementsDriveManagementApp.Controllers
         [ProducesResponseType(400)]
         public IActionResult UpdateApplication(int applicationId, [FromBody] ApplicationUpdateDto application)
         {
-            if (application == null)
-                return BadRequest(ModelState);
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -210,7 +177,12 @@ namespace PlacementsDriveManagementApp.Controllers
             if (existingApplication == null)
                 return NotFound();
 
-            _mapper.Map(application, existingApplication);
+            existingApplication.Status = application.Status ?? existingApplication.Status;
+            existingApplication.InterviewSlot = application.InterviewSlot ?? existingApplication.InterviewSlot;
+            existingApplication.StudentAppeared = application.StudentAppeared ?? existingApplication.StudentAppeared;
+            existingApplication.Package = application.Package ?? existingApplication.Package;
+            existingApplication.JoiningDate = application.JoiningDate ?? existingApplication.JoiningDate;
+            existingApplication.PlaceOfWork = application.PlaceOfWork ?? existingApplication.PlaceOfWork;
 
             if (!_applicationRepo.UpdateApplication(existingApplication))
             {
