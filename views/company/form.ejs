@@ -16,12 +16,10 @@
             class="w-full p-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
 
         <div class="flex justify-between">
-            <!-- Submit Button -->
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
                 Add Company
             </button>
 
-            <!-- Cancel Button -->
             <button type="button" onclick="location.href='/admin/companies'"
                 class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
                 Cancel
@@ -50,7 +48,7 @@
                 self.errorMessage("All fields are required.");
                 return;
             }
-            self.errorMessage(""); // Clear previous errors
+            self.errorMessage("");
 
             const companyData = {
                 name: self.name(),
@@ -69,7 +67,7 @@
 
                 self.successMessage("Company added successfully!");
                 setTimeout(() => {
-                    location.href = "/admin/companies"; // Redirect after success
+                    location.href = "/admin/companies";
                 }, 2000);
             } catch (error) {
                 self.errorMessage("Error adding company.");

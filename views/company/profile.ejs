@@ -22,7 +22,7 @@
             self.email = ko.observable("Loading...");
 
             self.fetchProfile = async function () {
-                const email = "<%= email %>"; // Inject email from backend
+                const email = localStorage.getItem("userEmail");
                 const apiUrl = `https://localhost:7209/api/Company/email/${encodeURIComponent(email)}`;
 
                 try {
@@ -40,7 +40,7 @@
             };
 
             self.logout = function () {
-                window.location.href = "/logout"; // Adjust this to match your logout route
+                window.location.href = "/logout";
             };
 
             self.fetchProfile();

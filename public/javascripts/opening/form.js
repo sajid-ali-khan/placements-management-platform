@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const companyApiUrl = `https://localhost:7209/api/Company/email/${encodeURIComponent(companyEmail)}`;
         const openingCreateUrl = `https://localhost:7209/api/Opening`;
 
-        // Fetch Company ID
+        
         async function fetchCompanyData() {
             try {
                 console.log("Fetching company data from:", companyApiUrl);

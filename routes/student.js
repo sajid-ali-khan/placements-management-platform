@@ -6,23 +6,23 @@ router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
 router.get("/", authenticate, authorizeRole("STUDENT"), (req, res) => {
-    res.render("dashboard-student", { body: "student-profile" });
+    res.render("student/dashboard", { body: "profile" });
 });
 
 router.get("/openings", authenticate, authorizeRole("STUDENT"), (req, res) => {
-    res.render("dashboard-student", { body: "opening" });
+    res.render("student/dashboard", { body: "../opening/view_and_apply" });
 });
 
 router.get("/profile", authenticate, authorizeRole("STUDENT"), (req, res) => {
-    res.render("dashboard-student", { body: "student-profile" });
+    res.render("student/dashboard", { body: "profile" });
 });
 
 router.get("/apply", authenticate, authorizeRole("STUDENT"), function(req, res) {
-    res.render("dashboard-student", { body: "apply", openingId: req.query.openingId });
+    res.render("student/dashboard", { body: "../application/form", openingId: req.query.openingId });
 });
 
 router.get("/applications", authenticate, authorizeRole("STUDENT"), (req, res) => {
-    res.render("dashboard-student", { body: "application" });
+    res.render("student/dashboard", { body: "../application/view_applied" });
 });
 
 

@@ -27,15 +27,15 @@
                 <td class="border border-gray-300 px-4 py-2" data-bind="text: jobTitle"></td>
                 <td class="border border-gray-300 px-4 py-2" data-bind="text: appliedDate"></td>
                 <td class="border border-gray-300 px-4 py-2" data-bind="text: applicationStatus"></td>
-                <td class="border border-gray-300 px-4 py-2" data-bind="text: interviewSlot ? interviewSlot : 'N/A'"></td>
-                <td class="border border-gray-300 px-4 py-2" data-bind="text: studentAppeared !== null ? (studentAppeared ? 'Yes' : 'No') : 'N/A'"></td>
-                <td class="border border-gray-300 px-4 py-2" data-bind="text: package ? package + ' LPA' : 'N/A'"></td>
-                <td class="border border-gray-300 px-4 py-2" data-bind="text: joiningDate ? joiningDate : 'N/A'"></td>
-                <td class="border border-gray-300 px-4 py-2" data-bind="text: placeOfWork || 'N/A'"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: interviewSlot ? interviewSlot : '-'"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: studentAppeared !== null ? (studentAppeared ? 'Yes' : 'No') : '-'"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: package ? package + ' LPA' : '-'"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: joiningDate ? joiningDate : '-'"></td>
+                <td class="border border-gray-300 px-4 py-2" data-bind="text: placeOfWork || '-'"></td>
             </tr>
         </tbody>
     </table>
 </div>
 
 <script src="/javascripts/knockout.js"></script>
-<script src="/javascripts/application.js"></script>
+<script src="/javascripts/application/view_applied.js"></script>

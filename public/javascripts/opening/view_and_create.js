@@ -2,17 +2,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     function HRViewModel() {
         const self = this;
 
-        self.openings = ko.observableArray([]); // Store job openings
-        self.companyName = ko.observable(""); // Store company name
+        self.openings = ko.observableArray([]);
+        self.companyName = ko.observable("");
         self.errorMessage = ko.observable("");
-        self.showCreateForm = ko.observable(false); // Toggle form visibility
-        self.searchQuery = ko.observable(""); // Search query for job title
+        self.showCreateForm = ko.observable(false);
+        self.searchQuery = ko.observable(""); 
 
-        const companyEmail = "Iota@gmail.com"; // Replace this dynamically if needed
+        const companyEmail = localStorage.getItem("userEmail");
         const companyApiUrl = `https://localhost:7209/api/Company/email/${encodeURIComponent(companyEmail)}`;
         const openingsApiUrl = "https://localhost:7209/api/Opening";
 
-        // Fetch company name using email
         async function fetchCompanyName() {
             try {
                 const response = await fetch(companyApiUrl);
@@ -30,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         }
 
-        // Fetch company job openings
+
         async function fetchCompanyOpenings() {
             try {
                 const companyName = await fetchCompanyName();
@@ -49,12 +48,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         }
 
-        // Toggle Create Opening Form
         self.toggleCreateForm = function () {
             self.showCreateForm(!self.showCreateForm());
         };
 
-        // Computed observable for filtering job openings by search query
         self.filteredOpenings = ko.computed(() => {
             const query = self.searchQuery().toLowerCase();
             return ko.utils.arrayFilter(self.openings(), function (opening) {
@@ -64,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         fetchCompanyOpenings();
         self.toggleCreateForm = function () {
-            window.location.href = "/hr/openings/new"; // Redirect to hr-opening.ejs
+            window.location.href = "/hr/openings/new";
         }; 
     }   
 
