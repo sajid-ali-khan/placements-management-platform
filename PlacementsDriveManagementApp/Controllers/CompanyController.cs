@@ -97,17 +97,17 @@ namespace PlacementsDriveManagementApp.Controllers
         }
 
 
-        [HttpGet("{companyId}/applications")]
+        [HttpGet("email/{companyEmail}/applications")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ApplicationDetailDto>))]
         [ProducesResponseType(400)]
-        public IActionResult GetApplicationsByCompany(int companyId)
+        public IActionResult GetApplicationsByCompany(string companyEmail)
         {
-            if (!_companyRepo.CompanyExists(companyId))
+            if (!_companyRepo.CompanyExistsByEmail(companyEmail))
             {
                 return NotFound(ModelState);
             }
 
-            var applications = _mapper.Map<List<ApplicationDetailDto>>(_companyRepo.GetApplicationsByCompany(companyId));
+            var applications = _mapper.Map<List<ApplicationDetailDto>>(_companyRepo.GetApplicationByCompanyEmail(companyEmail));
 
             if (!ModelState.IsValid)
             {

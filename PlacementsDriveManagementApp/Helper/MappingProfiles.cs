@@ -29,10 +29,12 @@ namespace PlacementsDriveManagementApp.Helper
                 .ForMember(dest => dest.JobTitle, opt => opt.MapFrom(src => src.Opening.JobTitle))
                 .ForMember(dest => dest.ApplicationStatus, opt => opt.MapFrom(src => src.Status.ToString()))
                 .ForMember(dest => dest.AppliedDate, opt => opt.MapFrom(src => src.AppliedDate.ToString("dd-MMM-yyyy")))
-                .ForMember(dest => dest.InterviewSlot, opt => opt.MapFrom(src => src.InterviewSlot))
+                .ForMember(dest => dest.InterviewSlot, opt => opt.MapFrom(src => src.InterviewSlot.HasValue ? src.InterviewSlot.Value.ToString("dd-MMM-yyyy") : ""))
                 .ForMember(dest => dest.StudentAppeared, opt => opt.MapFrom(src => src.StudentAppeared))
                 .ForMember(dest => dest.Package, opt => opt.MapFrom(src => src.Package))
-                .ForMember(dest => dest.JoiningDate, opt => opt.MapFrom(src => src.JoiningDate))
+                .ForMember(dest => dest.ResumeName, opt => opt.MapFrom(src => src.Resume.Name))
+                .ForMember(dest => dest.ResumePath, opt => opt.MapFrom(src => src.Resume.FilePath))
+                .ForMember(dest => dest.JoiningDate, opt => opt.MapFrom(src => src.JoiningDate.HasValue? src.JoiningDate.Value.ToString("dd-MMM-yyyy") : ""))
                 .ForMember(dest => dest.PlaceOfWork, opt => opt.MapFrom(src => src.PlaceOfWork));
 
             CreateMap<Opening, OpeningDetailDto>()

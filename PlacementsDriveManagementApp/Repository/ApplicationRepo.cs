@@ -34,6 +34,7 @@ namespace PlacementsDriveManagementApp.Repository
             return _context.Applications
                 .Where(ap => ap.Id == applicationId)
                 .Include(ap => ap.Student)
+                .Include(a => a.Resume)
                 .Include(ap => ap.Opening)
                 .ThenInclude(o => o.Company)
                 .FirstOrDefault();
@@ -53,6 +54,7 @@ namespace PlacementsDriveManagementApp.Repository
         {
             return _context.Applications
                 .Include(a => a.Student)
+                .Include(a => a.Resume)
                 .Include(a => a.Opening)
                 .ThenInclude(o => o.Company)
                 .ToList();

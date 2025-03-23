@@ -32,6 +32,15 @@ namespace PlacementsDriveManagementApp.Repository
             return Save();
         }
 
+        public ICollection<Application> GetApplicationByCompanyEmail(string companyEmail)
+        {
+            var companyId = _context.Companies.Where(com => com.Email == companyEmail)
+                .Select(com => com.Id)
+                .FirstOrDefault();
+
+            return GetApplicationsByCompany(companyId);
+        }
+
         public ICollection<Application> GetApplicationsByCompany(int companyId)
         {
             var companyOpenings = GetCompanyOpenings(companyId);
