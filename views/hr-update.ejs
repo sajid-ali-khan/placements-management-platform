@@ -1,0 +1,31 @@
+<div class="max-w-4xl mx-auto space-y-4">
+    <h1 class="text-2xl font-bold text-gray-800">Student Applications</h1>
+
+    <!-- Loading message -->
+    <p class="text-gray-500 text-center" data-bind="visible: isLoading">Loading student applications...</p>
+
+    <!-- Message when there are no applications -->
+    <p class="text-gray-500 text-center" data-bind="visible: !isLoading() && applications().length === 0">
+        No student applications for this company.
+    </p>
+
+    <!-- Student applications cards -->
+    <div class="space-y-4" data-bind="foreach: applications">
+        <div class="flex items-center justify-between p-4 border rounded-lg shadow-md bg-white">
+            <div>
+                <h2 class="text-xl mb-2 font-semibold text-gray-800" data-bind="text: studentName"></h2>
+                <p class="text-gray-600"><strong>Student ID:</strong> <span data-bind="text: studentId"></span></p>
+                <p class="text-gray-600"><strong>Job Title:</strong> <span data-bind="text: jobTitle"></span></p>
+                <p class="text-gray-600"><strong>Application Status:</strong> <span data-bind="text: applicationStatus"></span></p>
+                <p class="text-gray-500"><strong>Applied Date:</strong> <span data-bind="text: appliedDate"></span></p>
+            </div>
+            <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 cursor-pointer" 
+                data-bind="click: $parent.updateApplication">
+                Update
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="/javascripts/knockout.js"></script>
+<script src="/javascripts/hr-update.js"></script>
