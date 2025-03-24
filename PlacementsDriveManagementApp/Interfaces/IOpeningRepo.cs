@@ -12,5 +12,7 @@ namespace PlacementsDriveManagementApp.Interfaces
         bool CreateOpening(Opening opening);
         bool UpdateOpening(Opening opening);
         bool Save();
+
+        void Dispose();
     }
 }

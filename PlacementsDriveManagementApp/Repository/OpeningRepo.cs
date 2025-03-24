@@ -9,6 +9,8 @@ namespace PlacementsDriveManagementApp.Repository
     {
         private readonly DataContext _context;
 
+        private bool _disposed = false;
+
         public OpeningRepo(DataContext context)
         {
             _context = context;
@@ -64,6 +66,24 @@ namespace PlacementsDriveManagementApp.Repository
         {
             _context.Update(opening);
             return Save();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose(); // Dispose of the DB context
+                }
+                _disposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this); // Prevents finalizer from running
         }
     }
 }

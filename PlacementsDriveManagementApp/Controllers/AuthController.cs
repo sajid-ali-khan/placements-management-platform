@@ -61,5 +61,9 @@ namespace PlacementsDriveManagementApp.Controllers
             return Ok(new { message = "This is a protected API route!" });
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
     }
 }

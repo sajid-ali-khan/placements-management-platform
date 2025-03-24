@@ -15,5 +15,7 @@ namespace PlacementsDriveManagementApp.Interfaces
         bool Save();
         bool CompanyExistsByEmail(string companyEmail);
         string GetHashedPassword(string companyEmail);
+
+        void Dispose();
     }
 }

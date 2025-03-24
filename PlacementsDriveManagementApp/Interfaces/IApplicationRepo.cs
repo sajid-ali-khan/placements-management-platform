@@ -19,6 +19,8 @@ namespace PlacementsDriveManagementApp.Interfaces
         bool UpdateApplication(Application application);
 
         bool Save();
-        
+
+        void Dispose();
+
     }
 }

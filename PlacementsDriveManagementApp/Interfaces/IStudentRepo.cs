@@ -16,5 +16,7 @@ namespace PlacementsDriveManagementApp.Interfaces
         bool UpdateStudent(Student student);
         bool Save();
         string GetHashedPassword(string Email);
+
+        void Dispose();
     }
 }

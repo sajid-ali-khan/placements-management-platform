@@ -8,6 +8,8 @@ namespace PlacementsDriveManagementApp.Repository
     public class PlacementOfficerRepo : IPlacementOfficerRepo
     {
         private readonly DataContext _context;
+
+        private bool _disposed = false;
         public PlacementOfficerRepo(DataContext dataContext)
         {
             _context = dataContext;
@@ -60,6 +62,24 @@ namespace PlacementsDriveManagementApp.Repository
 
             Console.WriteLine($"Retrieved Hashed Password: {hashedPassword}");
             return hashedPassword;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose(); // Dispose of the DB context
+                }
+                _disposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this); // Prevents finalizer from running
         }
 
     }

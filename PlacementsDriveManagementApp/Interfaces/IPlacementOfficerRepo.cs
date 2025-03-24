@@ -13,5 +13,7 @@ namespace PlacementsDriveManagementApp.Interfaces
         bool Save();
 
         string GetHashedPassword(string userName);
+
+        void Dispose();
     }
 }

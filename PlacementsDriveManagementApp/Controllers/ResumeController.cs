@@ -111,5 +111,13 @@ namespace PlacementsDriveManagementApp.Controllers
             return NoContent();
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _resumeRepo.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

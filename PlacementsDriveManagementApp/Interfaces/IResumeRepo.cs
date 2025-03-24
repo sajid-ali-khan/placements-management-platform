@@ -12,5 +12,7 @@ namespace PlacementsDriveManagementApp.Interfaces
         bool CreateResume(Resume resume);
         bool UpdateResume(Resume resume);
         bool Save();
+
+        void Dispose();
     }
 }
