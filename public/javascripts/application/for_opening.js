@@ -39,7 +39,7 @@ function ApplicationViewModel() {
     };
     
     self.viewDetails = function (application) {
-        alert(`Viewing details for ${application.studentName}`);
+        window.location.href = `applications/${application.applicationId}/details`
     };
     
     self.fetchApplications();

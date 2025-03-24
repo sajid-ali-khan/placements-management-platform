@@ -10,6 +10,10 @@ router.get("/applications", authenticate, authorizeRole("HR"), (req, res) => {
     res.render("company/dashboard", {body: "../application/for_opening"});
 });
 
+router.get("/applications/:id/details", authenticate, authorizeRole("HR"), (req, res) => {
+    res.render("company/dashboard", {body: "../application/details", applicationId: req.params.id})
+})
+
 router.get("/profile", authenticate, authorizeRole("HR"), (req, res) => {
     res.render("company/dashboard", {body: "profile"});
 });

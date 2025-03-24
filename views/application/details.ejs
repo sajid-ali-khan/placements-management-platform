@@ -1,0 +1,42 @@
+<div class="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
+    <h2 class="text-2xl font-semibold mb-4">Application Details</h2>
+    
+    <div class="space-y-2">
+        <p><strong>Student Name:</strong> <span data-bind="text: studentName"></span></p>
+        <p><strong>Company Name:</strong> <span data-bind="text: companyName"></span></p>
+        <p><strong>Job Title:</strong> <span data-bind="text: jobTitle"></span></p>
+        <p><strong>Resume:</strong> <a data-bind="attr: { href: resumePath, download: resumeName }, text: resumeName" class="text-blue-500 underline"></a></p>
+        <p><strong>Application Status:</strong> <span data-bind="text: applicationStatus"></span></p>
+        <p><strong>Applied Date:</strong> <span data-bind="text: appliedDate"></span></p>
+        
+        <!-- Conditional Fields -->
+        <p data-bind="visible: showInterviewSlot"><strong>Interview Slot:</strong> <span data-bind="text: interviewSlot"></span></p>
+        <p data-bind="visible: showStudentAppeared">
+            <strong>Student Appeared:</strong> 
+            <span data-bind="text: studentAppeared() ? 'Yes' : 'No'"></span>
+        </p>
+        <p data-bind="visible: showSelectionDetails"><strong>Package:</strong> <span data-bind="text: package"></span> LPA</p>
+        <p data-bind="visible: showSelectionDetails"><strong>Joining Date:</strong> <span data-bind="text: joiningDate"></span></p>
+        <p data-bind="visible: showSelectionDetails"><strong>Place of Work:</strong> <span data-bind="text: placeOfWork"></span></p>
+    </div>
+    
+    <!-- Update Status Section -->
+    <div class="mt-6 p-4 border-t">
+        <h3 class="text-lg font-semibold">Update Application Status</h3>
+        <select data-bind="value: newStatus, options: availableStatuses, event: { change: onStatusChange }" class="mt-2 p-2 border rounded w-full"></select>
+        
+        <input type="datetime-local" data-bind="visible: showInterviewSlotInput, value: interviewSlot" class="mt-2 p-2 border rounded w-full" placeholder="Interview Slot">
+        <label data-bind="visible: showStudentAppearedInput" class="mt-2 block">
+            <input type="checkbox" data-bind="checked: studentAppeared" class="mr-2"> Student Appeared
+        </label>
+        
+        <input type="number" data-bind="visible: showSelectionInputs, value: package" class="mt-2 p-2 border rounded w-full" placeholder="Package (LPA)">
+        <input type="date" data-bind="visible: showSelectionInputs, value: joiningDate" class="mt-2 p-2 border rounded w-full" placeholder="Joining Date">
+        <input type="text" data-bind="visible: showSelectionInputs, value: placeOfWork" class="mt-2 p-2 border rounded w-full" placeholder="Place of Work">
+        
+        <button data-bind="click: updateApplication" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Save Changes</button>
+    </div>
+</div>
+
+<script src="/javascripts/knockout.js"></script>
+<script src="/javascripts/application/details.js"></script>
