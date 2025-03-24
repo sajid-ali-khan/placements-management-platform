@@ -29,6 +29,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         }
 
+        self.viewApplications = function (jobTitle) {
+            const encodedJobTitle = encodeURIComponent(jobTitle);
+            window.location.href = `/hr/applications?jobTitle=${encodedJobTitle}`;
+        };
+        
+        
 
         async function fetchCompanyOpenings() {
             try {
@@ -60,9 +66,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         fetchCompanyOpenings();
+        
         self.toggleCreateForm = function () {
             window.location.href = "/hr/openings/new";
-        }; 
+        };
     }   
 
     ko.applyBindings(new HRViewModel());

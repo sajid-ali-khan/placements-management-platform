@@ -5,9 +5,9 @@
 
         <!-- Create New Opening Button -->
         <button data-bind="click: toggleCreateForm"
-    class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600">
-    + Create Opening
-</button>
+            class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600">
+            + Create Opening
+        </button>
 
     </div>
 
@@ -26,18 +26,26 @@
                 <tr class="bg-gray-200">
                     <th class="border border-gray-300 px-4 py-2">ID</th>
                     <th class="border border-gray-300 px-4 py-2">Job Title</th>
-                    <th class="border border-gray-300 px-4 py-2">Description</th>
+                    <th class="border border-gray-300 px-4 py-2">Created Date</th>
                     <th class="border border-gray-300 px-4 py-2">Last Date</th>
+                    <th class="border border-gray-300 px-4 py-2">Applications submitted</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: filteredOpenings">
                 <tr class="bg-white hover:bg-gray-100">
                     <td class="border border-gray-300 px-4 py-2" data-bind="text: id"></td>
                     <td class="border border-gray-300 px-4 py-2" data-bind="text: jobTitle"></td>
-                    <td class="border border-gray-300 px-4 py-2" data-bind="text: description"></td>
+                    <td class="border border-gray-300 px-4 py-2" data-bind="text: createdDate"></td>
                     <td class="border border-gray-300 px-4 py-2" data-bind="text: lastDate"></td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <button class="bg-blue-500 text-white px-3 py-1 rounded-md shadow-md hover:bg-blue-600"
+                            data-bind="click: function() { $parent.viewApplications(jobTitle) }">
+                            View Applications
+                        </button>
+                    </td>
                 </tr>
             </tbody>
+
         </table>
     </div>
 </div>

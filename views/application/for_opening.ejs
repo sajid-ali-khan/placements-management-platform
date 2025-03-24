@@ -36,7 +36,7 @@
                     <td class="py-2 px-4" data-bind="text: jobTitle"></td>
                     <td class="py-2 px-4" data-bind="text: applicationStatus"></td>
                     <td class="py-2 px-4" data-bind="text: appliedDate"></td>
-                    <td class="py-2 px-4" data-bind="text: interviewSlot ? interviewSlot : '-'"></td>
+                    <td class="py-2 px-4" data-bind="text: interviewSlot || '-'"></td>
                     <td class="py-2 px-4 text-center">
                         <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition"
                                 data-bind="click: $parent.viewDetails">View Details</button>

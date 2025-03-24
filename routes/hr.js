@@ -7,8 +7,10 @@ router.get("/", authenticate, authorizeRole("HR"), (req, res) => {
 });
 
 router.get("/applications", authenticate, authorizeRole("HR"), (req, res) => {
-    res.render("company/dashboard", {body: "../application/for_opening"});
+    const jobTitle = req.query.jobTitle || "";
+    res.render("company/dashboard", { body: "../application/for_opening", jobTitle });
 });
+
 
 router.get("/applications/:id/details", authenticate, authorizeRole("HR"), (req, res) => {
     res.render("company/dashboard", {body: "../application/details", applicationId: req.params.id})
