@@ -10,20 +10,16 @@
         <p><strong>Application Status:</strong> <span data-bind="text: applicationStatus"></span></p>
         <p><strong>Applied Date:</strong> <span data-bind="text: appliedDate"></span></p>
 
-        <!-- Conditional Fields -->
-        <p data-bind="visible: showInterviewSlot"><strong>Interview Slot:</strong> <span
-                data-bind="text: interviewSlot"></span></p>
-        <p data-bind="visible: showStudentAppeared">
-            <strong>Student Appeared:</strong>
-            <span data-bind="text: studentAppeared() ? 'Yes' : 'No'"></span>
-        </p>
-        <p data-bind="visible: showSelectionDetails"><strong>Package:</strong> <span data-bind="text: package"></span>
-            LPA</p>
-        <p data-bind="visible: showSelectionDetails"><strong>Joining Date:</strong> <span
-                data-bind="text: joiningDate"></span></p>
-        <p data-bind="visible: showSelectionDetails"><strong>Place of Work:</strong> <span
-                data-bind="text: placeOfWork"></span></p>
-    </div>
+       <!-- Conditional Fields -->
+       <p data-bind="visible: showInterviewSlot"><strong>Interview Slot:</strong> <span data-bind="text: interviewSlot"></span></p>
+       <p data-bind="visible: showStudentAppeared">
+           <strong>Student Appeared:</strong> 
+           <span data-bind="text: studentAppeared() ? 'Yes' : 'No'"></span>
+       </p>
+       <p data-bind="visible: showSelectionDetails"><strong>Package:</strong> <span data-bind="text: package"></span> LPA</p>
+       <p data-bind="visible: showSelectionDetails"><strong>Joining Date:</strong> <span data-bind="text: joiningDate"></span></p>
+       <p data-bind="visible: showSelectionDetails"><strong>Place of Work:</strong> <span data-bind="text: placeOfWork"></span></p>
+   </div>
 
     <!-- Update Status Section -->
     <div class="mt-6 p-4 border-t">

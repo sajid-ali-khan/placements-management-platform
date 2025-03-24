@@ -31,10 +31,13 @@ document.addEventListener("DOMContentLoaded", function () {
             let current = self.applicationStatus();
             if (current === "Pending") {
                 self.availableStatuses(["InterviewScheduled", "Rejected"]);
+                self.newStatus("InterviewScheduled"); // Default selection
             } else if (current === "InterviewScheduled") {
                 self.availableStatuses(["Selected", "Rejected"]);
+                self.newStatus("Selected"); // Default selection
             }
         };
+        
 
         const statusList = {
             Pending: 1,
