@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const matchesStatus = !self.selectedStatus() || app.applicationStatus === self.selectedStatus();
                 const matchesJobTitle = !self.selectedJobTitle() || app.jobTitle === self.selectedJobTitle();
                 return matchesSearch && matchesStatus && matchesJobTitle;
+
             });
         });
 
@@ -46,10 +47,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Apply job title filter from URL if present
                     const jobTitleFilter = getJobTitleFromUrl();
-                    if (jobTitleFilter) {
+                    if (jobTitleFilter && self.jobTitleOptions().includes(jobTitleFilter)) {
                         console.log("Applying job title filter from URL:", jobTitleFilter);
                         self.selectedJobTitle(jobTitleFilter);
+                    } else {
+                        alert("No filters for the job title: " + jobTitleFilter);
                     }
+                    
                 })
                 .catch(error => console.error("❌ Error fetching applications:", error));
         };
