@@ -23,8 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
         
         self.showInterviewSlotInput = ko.computed(() => self.newStatus() === "InterviewScheduled");
         self.showStudentAppearedInput = ko.computed(() => self.applicationStatus() === "InterviewScheduled");
-        self.showSelectionInputs = ko.computed(() => self.newStatus() === "Selected");
-
+        self.showSelectionInputs = ko.computed(() => 
+            self.newStatus() === "Selected" || self.applicationStatus() === "Selected"
+        );
+        
         self.onStatusChange = function () {
             let current = self.applicationStatus();
             if (current === "Pending") {
@@ -62,6 +64,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                 .catch(error => console.error("Error fetching data:", error));
         };
+
+        self.newStatus.subscribe(function () {
+            self.onStatusChange();
+        });
+        
 
         self.updateApplication = function () {
             let updateData = {
