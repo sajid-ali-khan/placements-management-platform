@@ -352,6 +352,9 @@
   .w-96 {
     width: calc(var(--spacing) * 96);
   }
+  .w-\[80\%\] {
+    width: 80%;
+  }
   .w-full {
     width: 100%;
   }

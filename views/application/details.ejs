@@ -10,23 +10,27 @@
         <p><strong>Application Status:</strong> <span data-bind="text: applicationStatus"></span></p>
         <p><strong>Applied Date:</strong> <span data-bind="text: appliedDate"></span></p>
 
-       <!-- Conditional Fields -->
-       <p data-bind="visible: showInterviewSlot"><strong>Interview Slot:</strong> <span data-bind="text: interviewSlot"></span></p>
-       <p data-bind="visible: showStudentAppeared">
-           <strong>Student Appeared:</strong> 
-           <span data-bind="text: studentAppeared() ? 'Yes' : 'No'"></span>
-       </p>
-       <p data-bind="visible: showSelectionDetails"><strong>Package:</strong> <span data-bind="text: package"></span> LPA</p>
-       <p data-bind="visible: showSelectionDetails"><strong>Joining Date:</strong> <span data-bind="text: joiningDate"></span></p>
-       <p data-bind="visible: showSelectionDetails"><strong>Place of Work:</strong> <span data-bind="text: placeOfWork"></span></p>
-   </div>
+        <!-- Conditional Fields -->
+        <p data-bind="visible: showInterviewSlot"><strong>Interview Slot:</strong> <span
+                data-bind="text: interviewSlot"></span></p>
+        <p data-bind="visible: showStudentAppeared">
+            <strong>Student Appeared:</strong>
+            <span data-bind="text: studentAppeared() ? 'Yes' : 'No'"></span>
+        </p>
+        <p data-bind="visible: showSelectionDetails"><strong>Package:</strong> <span data-bind="text: package"></span>
+            LPA</p>
+        <p data-bind="visible: showSelectionDetails"><strong>Joining Date:</strong> <span
+                data-bind="text: joiningDate"></span></p>
+        <p data-bind="visible: showSelectionDetails"><strong>Place of Work:</strong> <span
+                data-bind="text: placeOfWork"></span></p>
+    </div>
 
     <!-- Update Status Section -->
-    <div class="mt-6 p-4 border-t">
+    <div class="mt-6 p-4 border-t" data-bind="visible: applicationStatus() !== 'Rejected'">
         <h3 class="text-lg font-semibold" data-bind="visible: applicationStatus() !== 'Selected'">Update Application
             Status</h3>
         <select
-            data-bind="visible: applicationStatus() !== 'Selected',newStatus, options: availableStatuses, event: { change: onStatusChange }"
+            data-bind="visible: applicationStatus() !== 'Selected', value: newStatus, options: availableStatuses, event: { change: onStatusChange }"
             class="mt-2 p-2 border rounded w-full"></select>
 
         <input type="datetime-local" data-bind="visible: showInterviewSlotInput, value: interviewSlot"
@@ -35,21 +39,15 @@
             <input type="checkbox" data-bind="checked: studentAppeared" class="mr-2"> Student Appeared
         </label>
 
-        <div class="flex items-center space-x-4" data-bind="visible: showSelectionInputs">
-            <label class="w-1/3">Package (LPA):</label>
-            <input type="number" data-bind="value: package" class="flex-1 p-2 border rounded w-full" placeholder="Enter package">
-        </div>
-        
-        <div class="flex items-center space-x-4 mt-2" data-bind="visible: showSelectionInputs">
-            <label class="w-1/3">Joining Date:</label>
-            <input type="date" data-bind="value: joiningDate" class="flex-1 p-2 border rounded w-full" placeholder="Enter joining date">
-        </div>
-        
-        <div class="flex items-center space-x-4 mt-2" data-bind="visible: showSelectionInputs">
-            <label class="w-1/3">Place of Work:</label>
-            <input type="text" data-bind="value: placeOfWork" class="flex-1 p-2 border rounded w-full" placeholder="Enter place of work">
-        </div>
-        
+        <label data-bind="visible: showSelectionInputs">Package(in LPA)</label>
+        <input type="number" data-bind="visible: showSelectionInputs, value: package"
+            class="mt-2 p-2 border rounded w-full" placeholder="Package (LPA)">
+            <label data-bind="visible: showSelectionInputs">Joining date</label>
+        <input type="date" data-bind="visible: showSelectionInputs, value: joiningDate"
+            class="mt-2 p-2 border rounded w-full" placeholder="Joining Date">
+            <label data-bind="visible: showSelectionInputs">Place of Work</label>
+        <input type="text" data-bind="visible: showSelectionInputs, value: placeOfWork"
+            class="mt-2 p-2 border rounded w-full" placeholder="Place of Work">
 
         <button data-bind="click: updateApplication" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Save
             Changes</button>
