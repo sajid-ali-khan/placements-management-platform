@@ -40,7 +40,7 @@ namespace PlacementsDriveManagementApp.Helper
                 issuer: jwtSettings["Issuer"],
                 audience: jwtSettings["Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["ExpirationInMinutes"])),
+                expires: DateTime.UtcNow.AddDays(1),
                 signingCredentials: credentials
             );
 
