@@ -42,4 +42,4 @@ A comprehensive platform that bridges the gap between a college's Training & Pla
 ---
 ## 🎥 Demo Video
 
-[Click here to watch the demo](https://drive.google.com/your_video_link)
+[Click here to watch the demo](https://drive.google.com/file/d/1yvxQlSKDEA4M0sAl3CTsc4GQEmR_9B1X/view?usp=sharing)
