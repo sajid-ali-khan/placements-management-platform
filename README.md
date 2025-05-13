@@ -7,3 +7,5 @@ This project provides web api for my project [placement-app-frontend](https://gi
 4. Automapper - for mapping classes to DTOs
 5. Bycrypt - for encrypting passwords and authentication
 6. JWT Tokens - for authorization upon login
+## Database design
+![PlacementDrive Db UML](https://github.com/user-attachments/assets/c916d6b7-3da4-4d79-927b-2d0ce84d0943)
