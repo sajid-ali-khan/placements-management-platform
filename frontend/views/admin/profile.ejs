@@ -1,0 +1,17 @@
+<div class="max-w-md mx-auto mt-10 bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold text-gray-700 text-center">Admin Profile</h2>
+    <div id="profile" class="mt-4 text-gray-600 text-lg">
+        <p><strong>Name:</strong> <span data-bind="text: name"></span></p>
+        <p><strong>Email:</strong> <span data-bind="text: email"></span></p>
+    </div>
+    <div class="flex justify-center items-center w-full mt-4">
+        <button type="button" class="bg-red-500 text-white px-3 py-2 rounded-md cursor-pointer"
+            data-bind="click: logout">
+            Logout
+        </button>
+    </div>
+    
+</div>
+
+<script src="/javascripts/knockout.js"></script>
+<script src="/javascripts/admin/profile.js"></script>

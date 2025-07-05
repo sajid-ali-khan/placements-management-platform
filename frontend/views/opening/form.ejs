@@ -1,0 +1,19 @@
+<div class="max-w-lg mx-auto p-6 bg-white shadow-md rounded-md">
+    <h2 class="text-xl font-semibold mb-4">Create Job Opening</h2>
+
+    <label class="block mb-2">Job Title</label>
+    <input type="text" data-bind="value: jobTitle" class="border p-2 w-full mb-3" />
+
+    <label class="block mb-2">Description</label>
+    <textarea data-bind="value: description" class="border p-2 w-full mb-3"></textarea>
+
+    <label class="block mb-2">Last Date</label>
+    <input type="date" data-bind="value: lastDate" class="border p-2 w-full mb-3" />
+
+    <button data-bind="click: createOpening" class="bg-blue-500 text-white px-4 py-2 rounded">Create Opening</button>
+
+    <p class="text-green-500 mt-2" data-bind="text: successMessage"></p>
+    <p class="text-red-500 mt-2" data-bind="text: errorMessage"></p>
+</div>
+<script src="/javascripts/knockout.js"></script>
+<script src="/javascripts/opening/form.js"></script>

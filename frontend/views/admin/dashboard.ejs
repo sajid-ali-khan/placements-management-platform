@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/stylesheets/output.css">
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+    <div class="flex justify-between items-center bg-white p-4 shadow-md">
+        <h1 class="text-2xl font-bold text-gray-700">Admin Dashboard</h1>
+        <div class="flex space-x-4">
+            <button onclick="window.location.href='/admin/students'" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 cursor-pointer">
+                Students
+            </button>
+            <button onclick="window.location.href='/admin/companies'" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 cursor-pointer">
+                Companies
+            </button>  
+            <button onclick="window.location.href='/admin/placement_records'" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 cursor-pointer">
+                Placement Records
+            </button>           
+            <button onclick="window.location.href='/admin/profile'" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 cursor-pointer">
+                Profile
+            </button>
+        </div>
+    </div>
+
+    <main class="p-6 flex-grow">
+        <%- include(body) %>
+    </main>
+
+    <footer class="bg-gray-700 text-white text-center p-4 shadow-md">
+        © 2025 Student Portal. All rights reserved.
+    </footer>
+
+</body>
+</html>

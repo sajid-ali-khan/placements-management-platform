@@ -1,0 +1,51 @@
+<div class="max-w-5xl mx-auto bg-white p-6 shadow-lg rounded-lg">
+    <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">Applications for Open Positions</h2>
+
+    <!-- Search Bar & Filters -->
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
+        <input type="text" 
+               placeholder="Search by student name..." 
+               class="border border-gray-300 p-2 rounded-md w-full sm:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+               data-bind="textInput: searchQuery">
+        
+        <select class="border border-gray-300 p-2 rounded-md w-full sm:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                data-bind="value: selectedStatus, options: statusOptions, optionsCaption: 'Filter by Status'">
+        </select>
+
+        <select class="border border-gray-300 p-2 rounded-md w-full sm:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                data-bind="value: selectedJobTitle, options: jobTitleOptions, optionsCaption: 'Filter by Job Title'">
+        </select>
+    </div>
+
+    <!-- Applications Table -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+            <thead>
+                <tr class="bg-gray-100 border-b border-gray-300">
+                    <th class="py-2 px-4 text-left">Student Name</th>
+                    <th class="py-2 px-4 text-left">Job Title</th>
+                    <th class="py-2 px-4 text-left">Status</th>
+                    <th class="py-2 px-4 text-left">Applied Date</th>
+                    <th class="py-2 px-4 text-left">Interview Slot</th>
+                    <th class="py-2 px-4 text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: filteredApplications">
+                <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                    <td class="py-2 px-4" data-bind="text: studentName"></td>
+                    <td class="py-2 px-4" data-bind="text: jobTitle"></td>
+                    <td class="py-2 px-4" data-bind="text: applicationStatus"></td>
+                    <td class="py-2 px-4" data-bind="text: appliedDate"></td>
+                    <td class="py-2 px-4" data-bind="text: interviewSlot || '-'"></td>
+                    <td class="py-2 px-4 text-center">
+                        <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition"
+                                data-bind="click: $parent.viewDetails">View Details</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/javascripts/knockout.js"></script>
+<script src="/javascripts/application/for_opening.js"></script>
