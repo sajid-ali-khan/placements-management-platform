@@ -1,0 +1,6 @@
+@PlacementsDriveManagementApp_HostAddress = http://localhost:5273
+
+GET {{PlacementsDriveManagementApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
