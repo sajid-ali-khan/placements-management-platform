@@ -1,0 +1,34 @@
+.
+├── backend
+│   └── PlacementsDriveManagementApp
+│       ├── Controllers
+│       ├── Data
+│       ├── Dto
+│       ├── Helper
+│       ├── Interfaces
+│       ├── Migrations
+│       ├── Models
+│       ├── Properties
+│       ├── Repository
+│       └── Services
+└── frontend
+    ├── middlewares
+    ├── public
+    │   ├── images
+    │   ├── javascripts
+    │   │   ├── admin
+    │   │   ├── application
+    │   │   ├── opening
+    │   │   └── student
+    │   ├── stylesheets
+    │   └── uploads
+    │       └── resumes
+    ├── routes
+    └── views
+        ├── admin
+        ├── application
+        ├── company
+        ├── opening
+        └── student
+
+32 directories
